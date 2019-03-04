@@ -1,0 +1,441 @@
+<html>
+    <head>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css' />
+    </head>
+    <body>
+		<div class="uk-inline uk-width-4-5 uk-position-large uk-position-top-center uk-vertical-align">	
+
+			<div class="uk-grid-collapse uk-animation-slide-top" uk-grid>
+				<div class="uk-width-expand">
+					<input id="playerInput" class="uk-input uk-form-large">
+				</div>
+				<div class="uk-width-auto">
+					<button onclick="AddPlayers()" class="uk-button uk-button-large uk-button-primary uk-width-1-1">Add player(s)</button>
+				</div>
+				<div class="uk-width-auto">
+					<button onclick="Start()" class="uk-button uk-button-large uk-button-primary uk-width-1-1 uk-margin-small-left">Start</button>
+				</div>
+			</div>
+		
+			<hr>
+			
+			<div id="buttonList" class="uk-grid-collapse" uk-grid></div>
+			
+			<div class="uk-grid-small uk-animation-slide-bottom-medium uk-child-width-expand" uk-grid>
+			
+				<div class="uk-width-auto">
+					<table style="height:550px">
+						<tr><td><div>1</div></td></tr>
+						<tr><td><div>2</div></td></tr>
+						<tr><td><div>3</div></td></tr>
+						<tr><td><div>4</div></td></tr>
+						<tr><td><div>5</div></td></tr>
+						<tr><td><div>6</div></td></tr>
+						<tr><td><div>7</div></td></tr>
+						<tr><td><div>8</div></td></tr>
+					</table>
+				</div>
+			
+				<div>
+					<table class="uk-width-1-1" style="height:550px">
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-1" onclick="Advance(4,1)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-2" onclick="Advance(4,2)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-3" onclick="Advance(4,3)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-4" onclick="Advance(4,4)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-5" onclick="Advance(4,5)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-6" onclick="Advance(4,6)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-7" onclick="Advance(4,7)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-8" onclick="Advance(4,8)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-9" onclick="Advance(4,9)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-10" onclick="Advance(4,10)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-11" onclick="Advance(4,11)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-12" onclick="Advance(4,12)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-13" onclick="Advance(4,13)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-14" onclick="Advance(4,14)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-15" onclick="Advance(4,15)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="4-16" onclick="Advance(4,16)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>        
+
+				<div class="uk-width-auto">
+					<table style="height:550px">
+						<tr><td><div>9</div></td></tr>
+						<tr><td><div>10</div></td></tr>
+						<tr><td><div>11</div></td></tr>
+						<tr><td><div>12</div></td></tr>
+					</table>
+				</div>
+				
+				<div>
+					<table class="uk-width-1-1" style="height:550px">
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="3-1" onclick="Advance(3,1)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="3-2" onclick="Advance(3,2)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="3-3" onclick="Advance(3,3)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="3-4" onclick="Advance(3,4)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="3-5" onclick="Advance(3,5)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="3-6" onclick="Advance(3,6)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="3-7" onclick="Advance(3,7)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="3-8" onclick="Advance(3,8)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<div class="uk-width-auto">
+					<table style="height:550px">
+						<tr><td><div>13</div></td></tr>
+						<tr><td><div>14</div></td></tr>
+					</table>
+				</div>
+				
+				<div>
+					<table class="uk-width-1-1" style="height:550px">
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="2-1" onclick="Advance(2,1)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="2-2" onclick="Advance(2,2)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="2-3" onclick="Advance(2,3)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="2-4" onclick="Advance(2,4)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<div class="uk-width-auto">
+					<table style="height:550px">
+						<tr><td><div>15</div></td></tr>
+					</table>
+				</div>
+				
+				<div>
+					<table class="uk-width-1-1" style="height:550px">
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="1-1" onclick="Advance(1,1)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="1-2" onclick="Advance(1,2)" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<div class="uk-width-auto">
+					<table style="height:550px">
+						<tr><td><div>W</div></td></tr>
+					</table>
+				</div>
+				
+				<div>
+					<table class="uk-width-1-1" style="height:550px">
+						<tr>
+							<td>
+								<div class="uk-grid-collapse" uk-grid>
+									<div class="uk-width-auto"><button class="uk-button-small uk-button-primary uk-padding-remove">&nbsp;</button></div>
+									<div class="uk-width-expand"><button id="0-1" class="uk-button uk-button-small uk-button-default uk-width-expand uk-text-left" disabled>&nbsp;</button></div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js'></script>
+
+<script>
+
+	var players = [];
+	var input = document.getElementById("playerInput");
+	input.addEventListener("keyup", function(event) {
+		event.preventDefault();
+		if (event.keyCode === 13) {
+			AddPlayers();
+		}
+	});
+	
+    function AddPlayers(){
+		var input = document.getElementById('playerInput').value;
+		if (input == ''){
+			return;
+		}
+	
+		var list = input.split(',');
+		document.getElementById('playerInput').value = '';
+		
+		for(var i = 0; i < list.length; i++){
+			players.push(list[i]);
+		}
+		RebuildPlayerList();
+    }
+
+	function Start(){
+		Reset();
+		Shuffle(players);
+		
+		if(players.length <= 4){
+			startRow = 2;
+		}		
+		if(players.length > 4 && players.length <= 8){
+			startRow = 3;
+		}	
+		if(players.length > 8){
+			startRow = 4;
+		}
+
+        for(var i = 0; i < players.length; i++){
+            var button = document.getElementById(startRow + '-' + (i + 1));
+			button.removeAttribute('disabled');
+            button.innerHTML = players[i];
+            button.value = players[i];
+        }
+	}
+	
+    function Advance(row, pos){
+        var currentPlayer = document.getElementById(row + '-' + pos);
+        if (currentPlayer.value == ''){
+            return;
+        }
+
+		var id = Math.ceil(pos / 2);
+		var button = document.getElementById((row-1) + '-' + id);
+		var baseClass = 'uk-button uk-button-small uk-width-expand uk-text-left';
+		
+        if (button.value != null && button.value == currentPlayer.value){
+            button.innerHTML = '\u00A0';
+            button.value = '';
+			button.setAttribute('disabled', '');
+            currentPlayer.className = baseClass + ' uk-button-default';
+        } else {
+            button.innerHTML = currentPlayer.value;
+            button.value = currentPlayer.value;
+			button.removeAttribute('disabled');
+            currentPlayer.className = baseClass + ' uk-button-primary';
+        }
+		
+		if(row == 1){
+			button.className = baseClass + ' uk-button-primary';
+		}
+    }
+
+	function RebuildPlayerList(){
+		var list = document.getElementById("buttonList");
+		list.innerHTML = "";	
+
+		for(var i = 0; i < players.length; i ++){
+			var buttonDiv = document.createElement("div");
+			list.appendChild(buttonDiv);
+			
+			var button = document.createElement("button");
+			button.value = players[i];
+			button.className = 'uk-button uk-button-default uk-button-small';
+			button.innerHTML = players[i];
+			button.onclick = function() { RemovePlayer(this.value); }
+			buttonDiv.appendChild(button);
+		}
+	}
+	
+	function RemovePlayer(input){
+		if(input == ''){
+			return;
+		}
+		var index = players.indexOf(input);
+		if(index != -1){
+			players.splice(index, 1);
+		}
+		RebuildPlayerList();
+    }
+	
+    function Shuffle(a) {
+        var j, x, i;
+        for (i = a.length - 1; i > 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            x = a[i];
+            a[i] = a[j];
+            a[j] = x;
+        }
+        return a;
+    }
+		
+	function ResetHTML(id) {
+		document.getElementById(id).innerHTML = '\u00A0';
+		document.getElementById(id).setAttribute('disabled', '');
+		document.getElementById(id).className = 'uk-button uk-button-small uk-width-expand uk-text-left uk-button-default';
+	}
+	
+	function Reset() {
+		ResetHTML('4-1');
+		ResetHTML('4-2');
+		ResetHTML('4-3');
+		ResetHTML('4-4');
+		ResetHTML('4-5');
+		ResetHTML('4-6');
+		ResetHTML('4-7');
+		ResetHTML('4-8');
+		ResetHTML('4-9');
+		ResetHTML('4-10');
+		ResetHTML('4-11');
+		ResetHTML('4-12');
+		ResetHTML('4-13');
+		ResetHTML('4-14');
+		ResetHTML('4-15');
+		ResetHTML('4-16');
+		ResetHTML('3-1');
+		ResetHTML('3-2');
+		ResetHTML('3-3');
+		ResetHTML('3-4');
+		ResetHTML('3-5');
+		ResetHTML('3-6');
+		ResetHTML('3-7');
+		ResetHTML('3-8');
+		ResetHTML('2-1');
+		ResetHTML('2-2');
+		ResetHTML('2-3');
+		ResetHTML('2-4');
+		ResetHTML('1-1');
+		ResetHTML('1-2');
+		ResetHTML('0-1');
+	}
+	
+</script>

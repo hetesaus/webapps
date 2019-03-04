@@ -1,0 +1,211 @@
+<style>
+
+	body {
+		padding: 0;
+		margin: 0;
+		border: 0;
+		background-color: #18141e;
+		overflow:hidden;
+	}
+  
+</style>
+
+<html>
+	<head>
+        	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    	</head>
+    	<body onload="Init()">
+		<div style="width:100%;height:50px;background-color:#342953;">
+			<a><img src="images/twitch.png" height="50" width="50"></a>
+		</div>
+        	<div class="uk-inline uk-width-4-5 uk-position-large uk-position-top-center uk-vertical-align">
+			<div class="uk-margin">
+				<div class="uk-search uk-search-default uk-width-1-1">
+					<span uk-search-icon></span>
+					<input 
+						id="streamInput" 
+						class="uk-search-input uk-form-large" 
+						type="search"
+						placeholder="Search">
+				</div>
+			</div>
+			<div class="uk-panel-scrollable" style="height: 600px;">
+				<div 
+					id="container"
+					class="uk-grid-small uk-child-width-1-6"
+					uk-grid>
+				</div>			
+			</div>
+			<div class="uk-margin">
+				<div 
+					id="buttonList" 
+					class="uk-grid-small"
+					uk-sortable="handle: .uk-sortable-handle"
+					uk-grid>
+				</div>
+			</div>
+			<div class="uk-margin">
+				<button 
+					onclick="Redirect()"
+					class="uk-button uk-width-1-1 uk-button-large uk-button-primary">
+					<span uk-icon="forward"></span>
+					Redirect
+				</button>
+			</div>
+	 	</div>
+    	</body>
+</html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+<script>
+
+  	var clientId = '';
+  	var oauth = '';
+  	var channels = [];
+	var selectedChannels = [];
+	var input = document.getElementById("streamInput");
+  
+	input.addEventListener("keyup", function(event) {
+		event.preventDefault();
+		if (event.keyCode === 13) {
+			var input = document.getElementById('streamInput').value;
+			AddChannel(input);
+		}
+	});
+	
+	function Init(){
+		GetQueryString();
+		RebuildSelectedButtons();
+		GetChannels();
+	}
+	
+	function GetQueryString(){
+		let url = new URL(location.href);
+		let searchParams = new URLSearchParams(url.search);
+		
+		clientId = searchParams.get('clientid');
+    		oauth = searchParams.get('oauth');	
+		
+		var channelParam = searchParams.get('channels');
+		selectedChannels = channelParam.split(' ');
+	}
+	
+  	function GetChannels(){
+	      	var url = 'https://api.twitch.tv/kraken/streams/followed?client_id=' + clientId + '&oauth_token=' + oauth + '&stream_type=live'
+	      	var request = new XMLHttpRequest();
+	      	request.open('GET', url, true);
+	      	request.onload = function () {
+		  	var data = JSON.parse(this.response);
+		  	if (request.status >= 200 && request.status < 400) {
+		      		for(var i = 0; i < data.streams.length; i++){    
+			  		channels.push(
+			  		{ 
+			      			name: data.streams[i].channel.name, 
+		  				game: data.streams[i].channel.game,
+		  				preview: data.streams[i].preview.medium,
+			      			viewers: data.streams[i].viewers 
+			  		});
+		      		}
+		      		CreateChannelButtons();
+		  	}
+	      	}
+      		request.send();    
+  	}
+	
+	function CreateChannelButtons(){		
+		var container = document.getElementById("container");
+		container.innerHTML = '';
+		channels.sort(function(a, b){return b.viewers - a.viewers})
+		
+		for(var i = 0; i < channels.length; i++){
+			var a = document.createElement('a');
+			a.value = channels[i].name;
+			a.onclick = function() { AddChannel(this.value); }
+			
+			var title = UpperFirst(channels[i].name);
+			var game = GetUsableString(channels[i].game);
+			var viewers = channels[i].viewers + ' viewers';
+			var tooltip = title + '<br>' + game + '<br>' + viewers;	
+			a.setAttribute('uk-tooltip', tooltip);
+			container.appendChild(a);
+		
+			var div = document.createElement('div');
+			div.className = 'uk-card uk-card-default uk-card-hover uk-animation-slide-bottom-small';
+			a.appendChild(div);
+			
+			var divMedia = document.createElement('div');
+			divMedia.className = 'uk-card-media-top';
+			div.appendChild(divMedia);
+			
+			var img = document.createElement('img');
+			img.src = channels[i].preview;
+			divMedia.appendChild(img);
+		}
+	}
+
+  	function AddChannel(input){	
+		if(input == ''){
+			return;
+		}
+		document.getElementById('streamInput').value = '';
+        	selectedChannels.push(input);
+		RebuildSelectedButtons();
+    	}
+
+	function UpperFirst(string){
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+	
+	function GetUsableString(string){
+		return string.replace(':', '');
+	}
+	
+  	function RemoveChannel(input){
+		if(input == ''){
+			return;
+		}
+
+		var index = selectedChannels.indexOf(input);
+		if(index != -1){
+			selectedChannels.splice(index, 1);
+		}
+		RebuildSelectedButtons();
+	}
+
+	function RebuildSelectedButtons(){
+		document.getElementById("buttonList").innerHTML = "";	
+		var group = document.getElementById("buttonList");
+		for(var i = 0; i < selectedChannels.length; i ++){
+			var buttonDiv = document.createElement("div");
+			buttonDiv.className = 'uk-sortable-handle uk-width-expand';
+			group.appendChild(buttonDiv);
+			
+			var button = document.createElement("button");
+			button.name = 'selectedChannelButton';
+			button.value = selectedChannels[i];
+			button.className = 'uk-button uk-button-primary uk-width-1-1 uk-text-truncate';
+			
+			var spanHandle = document.createElement("span");
+			spanHandle.className = 'uk-sortable-handle';
+			spanHandle.setAttribute('uk-icon', 'icon: user');
+			button.appendChild(spanHandle);
+			
+			var spanTitle = document.createElement("span");
+			spanTitle.innerHTML = ' ' + selectedChannels[i];
+			button.appendChild(spanTitle);
+			button.onclick = function() { RemoveChannel(this.value); }
+			buttonDiv.appendChild(button);
+		}
+	}
+	
+	function Redirect(){
+		var childs = document.getElementsByName("selectedChannelButton");
+		var channels = [];
+		for(var i = 0; i < childs.length; i++){
+			channels.push(childs[i].value);
+		}
+		window.location.href = 'twitch.html' + '?channels=' + channels.join('+') + '&clientid=' + clientId + '&oauth=' + oauth;
+	}
+
+</script>

@@ -1,0 +1,320 @@
+<html>
+	<head>
+        	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css' />
+    	</head>
+    	<body>
+		<div class="uk-inline uk-width-5-6 uk-position-large uk-position-top-center uk-vertical-align">	
+			
+			<div class="uk-grid-collapse uk-animation-slide-top" uk-grid>			
+				<div class="uk-width-expand">
+					<input id="playerInput" class="uk-input uk-form-large">
+				</div>
+				<div>
+					<button onclick="AddPlayers()" class="uk-button uk-button-large uk-button-default uk-width-1-1">
+						Add player(s)
+					</button>
+				</div>
+				<div>
+					<button onclick="Start()" class="uk-button uk-button-large uk-button-primary uk-width-1-1">
+						Start
+					</button>
+				</div>
+				<div>
+					<button onclick="ValidateRound()" class="uk-button uk-button-large uk-button-primary uk-width-1-1">
+						Advance
+					</button>
+				</div>
+			</div>
+			
+			<hr>
+			
+			<div class="uk-animation-slide-bottom">
+			
+				<!-- ROUND 1 -->
+				
+				<div class="uk-card-default uk-card-small uk-card-body">			
+					<div class="uk-grid-small uk-grid-divider uk-child-width-1-6" uk-grid>
+						<div>
+							<table class="uk-table uk-table-small uk-table-justify uk-table-divider">
+								<tr>
+									<td>1</td>
+									<td id="1-0Name"></td>
+									<td>
+										<input id="1-0Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td id="1-1Name"></td>
+									<td>
+										<input id="1-1Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td id="1-2Name"></td>
+									<td>
+										<input id="1-2Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td id="1-3Name"></td>
+									<td>
+										<input id="1-3Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+
+							</table>
+						</div>
+
+						<div>
+							<table class="uk-table uk-table-small uk-table-justify uk-table-divider">
+								<tr>
+									<td>5</td>
+									<td id="1-4Name"></td>
+									<td>
+										<input id="1-4Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>6</td>
+									<td id="1-5Name"></td>
+									<td>
+										<input id="1-5Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>7</td>
+									<td id="1-6Name"></td>
+									<td>
+										<input id="1-6Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>8</td>
+									<td id="1-7Name"></td>
+									<td>
+										<input id="1-7Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<div>
+							<table class="uk-table uk-table-small uk-table-justify uk-table-divider">
+								<tr>
+									<td>9</td>
+									<td id="1-8Name"></td>
+									<td>
+										<input id="1-8Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>10</td>
+									<td id="1-9Name"></td>
+									<td>
+										<input id="1-9Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>11</td>
+									<td id="1-10Name"></td>
+									<td>
+										<input id="1-10Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>12</td>
+									<td id="1-11Name"></td>
+									<td>
+										<input id="1-11Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<div>
+							<table class="uk-table uk-table-small uk-table-justify uk-table-divider">
+								<tr>
+									<td>13</td>
+									<td id="1-12Name"></td>
+									<td>
+										<input id="1-12Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>14</td>
+									<td id="1-13Name"></td>
+									<td>
+										<input id="1-13Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>15</td>
+									<td id="1-14Name"></td>
+									<td>
+										<input id="1-14Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>16</td>
+									<td id="1-15Name"></td>
+									<td>
+										<input id="1-15Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<div>
+							<table class="uk-table uk-table-small uk-table-justify uk-table-divider">
+								<tr>
+									<td>17</td>
+									<td id="1-16Name"></td>
+									<td>
+										<input id="1-16Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>18</td>
+									<td id="1-17Name"></td>
+									<td>
+										<input id="1-17Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>19</td>
+									<td id="1-18Name"></td>
+									<td>
+										<input id="1-18Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>20</td>
+									<td id="1-19Name"></td>
+									<td>
+										<input id="1-19Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<div>
+							<table class="uk-table uk-table-small uk-table-justify uk-table-divider">
+								<tr>
+									<td>21</td>
+									<td id="1-20Name"></td>
+									<td>
+										<input id="1-20Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>22</td>
+									<td id="1-21Name"></td>
+									<td>
+										<input id="1-21Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>23</td>
+									<td id="1-22Name"></td>
+									<td>
+										<input id="1-22Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+								<tr>
+									<td>24</td>
+									<td id="1-23Name"></td>
+									<td>
+										<input id="1-23Score" class="uk-input uk-form-small" type="number" min="0" max="60">
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				</hr>
+				
+				<!-- ROUND 2 -->
+				
+				<div class="uk-card-default uk-card-small uk-card-body"></div>
+				
+				<!-- ROUND 3 -->
+				<!-- ROUND 4 -->
+				<!-- ROUND 5 -->
+				
+			</div>
+        	</div>
+    	</body>
+</html>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js'></script>
+<script>
+	
+	var round = 1;
+	var players = [];
+	var input = document.getElementById("playerInput");
+	input.addEventListener("keyup", function(event) {
+		event.preventDefault();
+		if (event.keyCode === 13) {
+			AddPlayers();
+		}
+	});
+	
+ 	function AddPlayers(){
+		var input = document.getElementById('playerInput').value;
+		if (input == ''){
+			return;
+		}
+		var list = input.split(',');
+		document.getElementById('playerInput').value = '';
+		for(var i = 0; i < list.length; i++){
+			players.push({ name: list[i], score: [] });
+		}
+		RebuildPlayerList();
+	}
+	
+	function RemovePlayer(input){
+		if(input == ''){
+			return;
+		}
+		var index = players.map(function(player) { return player.name; }).indexOf(input);
+		players.splice(index, 1);
+		RebuildPlayerList();
+    	}
+	
+	function RebuildPlayerList(){
+		for(var i = 0; i < players.length; i ++){
+			document.getElementById('1-' + i + 'Name').innerHTML = players[i].name;
+		}
+	}
+		
+	function ValidateRound(){
+		for(var i = 0; i < 24; i++)
+		{
+			var name = document.getElementById(round + '-' + i + 'Name').innerHTML;
+			var score = document.getElementById(round + '-' + i + 'Score').value;
+			if(name != '' && score == ''){
+				return false;	
+			}
+		
+
+		}
+		alert('advance'); 
+		return true;
+	}
+	
+	function AddScores(){
+		for(var i = 0; i < 24; i++)
+		{
+			var name = document.getElementById(round + '-' + i + 'Name').innerHTML;
+			var curPlayer = players.find(o => o.name === name);
+			var score = document.getElementById(round + '-' + i + 'Score').value;
+			curPlayer.score.push(parseInt(score));
+		}
+	}
+
+</script>
