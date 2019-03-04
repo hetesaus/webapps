@@ -83,12 +83,12 @@
 	function GetQueryString(){
 		let url = new URL(location.href);
 		let searchParams = new URLSearchParams(url.search);
-		
 		clientId = searchParams.get('clientid');
     		oauth = searchParams.get('oauth');	
-		
 		var channelParam = searchParams.get('channels');
-		selectedChannels = channelParam.split(' ');
+		if(channelParam != null){
+			selectedChannels = channelParam.split(' ');
+		}
 	}
 	
   	function GetChannels(){
