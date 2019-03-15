@@ -1,9 +1,7 @@
 <style>
 
 	body {
-		padding: 0;
-		margin: 0;
-		border: 0;
+		padding: 0; margin: 0; border: 0;
 		background-color: #18141e;
 		overflow:hidden;
 	}
@@ -22,32 +20,17 @@
 			<div class="uk-margin">
 				<div class="uk-search uk-search-default uk-width-1-1">
 					<span uk-search-icon></span>
-					<input 
-						id="streamInput" 
-						class="uk-search-input uk-form-large" 
-						type="search"
-						placeholder="Search">
+					<input id="streamInput" class="uk-search-input uk-form-large" type="search" placeholder="Search">
 				</div>
 			</div>
 			<div class="uk-panel-scrollable" style="height: 600px;">
-				<div 
-					id="container"
-					class="uk-grid-small uk-child-width-1-6"
-					uk-grid>
-				</div>			
+				<div id="container" class="uk-grid-small uk-child-width-1-6" uk-grid></div>			
 			</div>
 			<div class="uk-margin">
-				<div 
-					id="buttonList" 
-					class="uk-grid-small"
-					uk-sortable="handle: .uk-sortable-handle"
-					uk-grid>
-				</div>
+				<div id="buttonList" class="uk-grid-small" uk-sortable="handle: .uk-sortable-handle" uk-grid></div>
 			</div>
 			<div class="uk-margin">
-				<button 
-					onclick="Redirect()"
-					class="uk-button uk-width-1-1 uk-button-large uk-button-primary">
+				<button onclick="Redirect()" class="uk-button uk-width-1-1 uk-button-large uk-button-primary">
 					<span uk-icon="forward"></span>
 					Redirect
 				</button>
@@ -69,8 +52,7 @@
 	input.addEventListener("keyup", function(event) {
 		event.preventDefault();
 		if (event.keyCode === 13) {
-			var input = document.getElementById('streamInput').value;
-			AddChannel(input);
+			AddChannel(document.getElementById('streamInput').value);
 		}
 	});
 	
@@ -85,6 +67,7 @@
 		let searchParams = new URLSearchParams(url.search);
 		clientId = searchParams.get('clientid');
     		oauth = searchParams.get('oauth');	
+		
 		var channelParam = searchParams.get('channels');
 		if(channelParam != null){
 			selectedChannels = channelParam.split(' ');
@@ -92,6 +75,10 @@
 	}
 	
   	function GetChannels(){
+		if(clientId == '' || oauth = ''){
+			return;
+		}	
+		
 	      	var url = 'https://api.twitch.tv/kraken/streams/followed?client_id=' + clientId + '&oauth_token=' + oauth + '&stream_type=live'
 	      	var request = new XMLHttpRequest();
 	      	request.open('GET', url, true);
@@ -113,7 +100,11 @@
       		request.send();    
   	}
 	
-	function CreateChannelButtons(){		
+	function CreateChannelButtons(){	
+		if(channels.length == 0){
+			return;	
+		}
+		
 		var container = document.getElementById("container");
 		container.innerHTML = '';
 		channels.sort(function(a, b){return b.viewers - a.viewers})
@@ -173,7 +164,7 @@
 		RebuildSelectedButtons();
 	}
 
-	function RebuildSelectedButtons(){
+	function RebuildSelectedButtons(){	
 		document.getElementById("buttonList").innerHTML = "";	
 		var group = document.getElementById("buttonList");
 		for(var i = 0; i < selectedChannels.length; i ++){
