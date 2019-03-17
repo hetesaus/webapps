@@ -75,10 +75,6 @@
 	}
 	
   	function GetChannels(){
-		if(clientId == '' || oauth = ''){
-			return;
-		}	
-		
 	      	var url = 'https://api.twitch.tv/kraken/streams/followed?client_id=' + clientId + '&oauth_token=' + oauth + '&stream_type=live'
 	      	var request = new XMLHttpRequest();
 	      	request.open('GET', url, true);
