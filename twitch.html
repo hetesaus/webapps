@@ -52,9 +52,6 @@
 				<div class="uk-width-expand">
 					<a><img src="images/twitch.png" onclick="Redirect()" height="50" width="50"></a>
 				</div>
-				<div class="uk-margin-small-right">
-					<font size="6" color="white" id="time">00:00</font>
-				</div>
 			</div>
 		</div>
 		<table class="channelTabel">
@@ -133,8 +130,6 @@
 	function Init() {
 		GetQueryString();
 		SetChannels();
-		
-		setInterval(GetTime, 1000);
 	}
 	
 	function GetQueryString(){
@@ -146,19 +141,6 @@
 		
 		var channelParam = searchParams.get('channels');
 		channels = channelParam.split(' ');
-	}
-		
-	function GetTime(){
-		var date = new Date();
-		var time = FormatTime(date.getHours()) + ':' + FormatTime(date.getMinutes());
-		document.getElementById('time').innerHTML = time;
-	}
-	
-	function FormatTime(n){
-		if(n < 10){
-			n = "0" + n;
-		}
-		return n;
 	}
 
 	function SetChannels(){
