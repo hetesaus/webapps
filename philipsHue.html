@@ -4,24 +4,14 @@
 	</head>
 	<body onload="Init()">
 		<div class="uk-inline uk-width-4-5 uk-position-large uk-position-top-center uk-vertical-align">
-			<div class="uk-grid-collapse uk-animation-slide-top k-child-width-1-4" uk-grid>			
+			<div class="uk-grid-collapse uk-animation-slide-top" uk-grid>			
 				<div class="uk-width-expand">
 					<img src="images/philipsHue.png" width="145">
 				</div>
-				<div>
-					<button class="uk-button uk-button-default uk-width-1-1 uk-margin-top" id="updateLabel" disabled></button>
-				</div>
-				<div>
-					<button class="uk-button uk-button-default uk-width-1-1 uk-margin-top" onclick="GetLights()">
-						<span uk-icon="refresh"></span>
-						<span>Refresh</span>
-					</button>
-				</div>
-				<div>
-					<button class="uk-button uk-button-default uk-width-1-1 uk-margin-top" onclick="TurnOffAll()">
-						<span uk-icon="ban"></span>
-						<span>Shutdown</span>
-					</button>
+				<div class="uk-width-auto">
+					<span class="uk-width-1-1 uk-margin-small-right uk-margin-top" id="updateLabel"></span>
+					<a onclick="GetLights()" class="uk-icon-button" uk-icon="refresh"></a>
+					<a onclick="TurnOffAll()" class="uk-icon-button" uk-icon="ban"></a>
 				</div>
 			</div>
 			<hr>
