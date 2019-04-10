@@ -39,8 +39,8 @@
 
 <script>
 
-  var philipsHueIp = '';
-  var philipsHueUserId = '';
+  	var philipsHueIp = '';
+  	var philipsHueUserId = '';
 	var lights = [];
 	var updateTime;
 	var cooldown = 30000;
@@ -54,17 +54,17 @@
 	});	
 	
 	function Init(){
-    GetQueryString();
+    		GetQueryString();
 		GetLights();
 	}
 	
-  function GetQueryString(){
-    let url = new URL(location.href);
-    let searchParams = new URLSearchParams(url.search);
+  	function GetQueryString(){
+    		let url = new URL(location.href);
+    		let searchParams = new URLSearchParams(url.search);
         
-    philipsHueIp = searchParams.get('philipsHueIp');
-    philipsHueUserId = searchParams.get('philipsHueUserId');    
-  }
+    		philipsHueIp = searchParams.get('philipsHueIp');
+    		philipsHueUserId = searchParams.get('philipsHueUserId');    
+  	}
   
 	function TurnOffAll(){
 		for(var i = 0; i < lights.length; i ++){
@@ -74,10 +74,10 @@
 	}
 	
 	function GetLights(){
-		var url = 'http://' + philipsHueIp + '/api/' + philipsHueUserId + '/lights';
+		var url = 'https://' + philipsHueIp + '/api/' + philipsHueUserId + '/lights';
 		var request = new XMLHttpRequest();
 		request.responseType = 'json';
-        request.open('GET', url, true);
+        	request.open('GET', url, true);
 		request.onload = function () {
 			var data = request.response;
 			lights = [];
@@ -85,25 +85,25 @@
 			for(var i = 0; i < 99; i++){
 				if(data[i] != undefined){
 					lights.push(
-                    { 
-                        id: i, 
+					{ 
+						id: i, 
 						name: data[i].name,
 						active: data[i].state.on,
 						sat: data[i].sat,
 						bri: data[i].bri,
 						hue: data[i].hue,
-                    });
+					});
 				}
 			}
 			CreateButtons();
-    }
+    		}	
 		request.send(); 
 		
 		updateTime = new Date().getTime();
 		var hours = Math.floor((updateTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) + 1;
 		var minutes = Math.floor((updateTime % (1000 * 60 * 60)) / (1000 * 60));
 		updateLabel.innerHTML = "last updated: " + hours + ":" + String("0" + minutes).slice(-2);
-  }
+  	}
 	
 	function SwitchLight(id){
 		lights[id].active = !lights[id].active;
