@@ -33,13 +33,10 @@
   	var userId = '';
 	var lights = [];
 	var updateTime;
-	var cooldown = 30000;
 	
 	document.addEventListener('visibilitychange', function(e) {
 		if(document.hidden == false){
-			if(new Date().getTime() - updateTime > cooldown){
-				GetLights();
-			}
+			GetLights();
 		}
 	});	
 	
