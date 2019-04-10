@@ -51,7 +51,6 @@
   	function GetQueryString(){
     		let url = new URL(location.href);
     		let searchParams = new URLSearchParams(url.search);
-        
     		ip = searchParams.get('ip');
     		userId = searchParams.get('userId');    
   	}
@@ -79,7 +78,9 @@
 						id: i, 
 						name: data[i].name,
 						active: data[i].state.on,
-						bri: data[i].state.on ? parseInt(data[i].state.bri) : 0
+						bri: data[i].state.on 
+							? parseInt(data[i].state.bri) 
+							: 0
 					});
 				}
 			}
@@ -95,19 +96,25 @@
 	
 	function SwitchLight(id){
 		lights[id].active = !lights[id].active;
-		lights[id].bri = lights[id].active ? 254 : 0;
+		lights[id].bri = 
+			lights[id].active 
+				? 254 
+				: 0;
 		AlterLight(id);
 	}
 	
 	function SwitchLightBrightness(id, bri){
 		lights[id].bri = parseInt(bri);
-		lights[id].active = bri > 1 ? true : false; 
+		lights[id].active = 
+			bri > 1 
+				? true 
+				: false; 
 		AlterLight(id);
 	}
 	
 	function AlterLight(id){
 		var url = 'https://' + ip + '/api/' + userId + '/lights/' + lights[id].id + '/state';
-		var json = JSON.stringify({ on: lights[id].active, sat: lights[id].sat, bri: lights[id].bri, hue: lights[id].hue });		
+		var json = JSON.stringify({ on: lights[id].active, bri: lights[id].bri });		
 		var request = new XMLHttpRequest();
 		request.open('PUT', url);
 		request.setRequestHeader('Content-Type', 'application/json');
@@ -171,7 +178,10 @@
 			var stateText = document.createElement('font');
 			stateText.className = 'uk-align-left';
 			stateText.setAttribute('size', '2');
-			stateText.innerHTML = lights[i].active ? '100%' : 'OFF';
+			stateText.innerHTML = 
+				lights[i].active 
+					? Math.round(lights[i].bri / 254 * 100) + '%' 
+					: 'OFF';
 			stateDiv.appendChild(stateText);
 		
 			var slider = document.createElement('input');
