@@ -79,7 +79,7 @@
 						id: i, 
 						name: data[i].name,
 						active: data[i].state.on,
-						bri: parseInt(data[i].state.bri)
+						bri: data[i].state.on ? parseInt(data[i].state.bri) : 0
 					});
 				}
 			}
