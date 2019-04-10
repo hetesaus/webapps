@@ -79,9 +79,7 @@
 						id: i, 
 						name: data[i].name,
 						active: data[i].state.on,
-						sat: data[i].sat,
-						bri: data[i].bri,
-						hue: data[i].hue,
+						bri: parseInt(data[i].state.bri)
 					});
 				}
 			}
@@ -97,14 +95,23 @@
 	
 	function SwitchLight(id){
 		lights[id].active = !lights[id].active;
+		lights[id].bri = lights[id].active ? 254 : 0;
+		AlterLight(id);
+	}
 	
-		var url = 'https://' + ip + '/api/' + userId + '/lights/' + lights[id].id + '/state';
-		var json = JSON.stringify({ on: lights[id].active, sat: lights[id].sat, bri: lights[id].bri, hue: lights[id].hue });
+	function SwitchLightBrightness(id, bri){
+		lights[id].bri = parseInt(bri);
+		lights[id].active = bri > 1 ? true : false; 
+		AlterLight(id);
+	}
+	
+	function AlterLight(id){
+		var url = 'https://' + philipsHueIp + '/api/' + philipsHueUserId + '/lights/' + lights[id].id + '/state';
+		var json = JSON.stringify({ on: lights[id].active, sat: lights[id].sat, bri: lights[id].bri, hue: lights[id].hue });		
 		var request = new XMLHttpRequest();
 		request.open('PUT', url);
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.send(json);
-		
 		CreateButtons();
 	}
 	
@@ -113,52 +120,71 @@
 		container.innerHTML = '';
 		
 		for(var i = 0; i < lights.length; i++){
-			var button = document.createElement('button');
-			button.onclick = function() { SwitchLight(this.value); }
-			button.value = i;
-			button.className = 'uk-button uk-button-link';
-			container.appendChild(button);
-			
+			var mainDiv = document.createElement('div');
+			container.appendChild(mainDiv);
+						
 			var cardDiv = document.createElement('div');
-			cardDiv.className = 
-				lights[i].active 
-					? 'uk-border-rounded uk-card uk-card-small uk-card-body uk-card-hover uk-width-1-1 uk-card-primary' 
-					: 'uk-border-rounded uk-card uk-card-small uk-card-body uk-card-hover uk-width-1-1 uk-card-default';
-			button.appendChild(cardDiv);
+			cardDiv.className =
+				lights[i].active
+					? 'uk-border-rounded uk-card uk-card-small uk-card-body uk-card-hover uk-card-primary'
+					: 'uk-border-rounded uk-card uk-card-small uk-card-body uk-card-hover uk-card-default';
+			mainDiv.appendChild(cardDiv);
 			
+			var button = document.createElement('button');
+			button.value = i;
+			button.className = 'uk-button uk-button-link uk-width-1-1';
+			button.onclick = function() { SwitchLight(this.value); };
+			cardDiv.appendChild(button);
+		
 			var cardHeaderDiv = document.createElement('div');
 			cardHeaderDiv.className = 'uk-card-header';
-			cardDiv.appendChild(cardHeaderDiv);
-			
-			var icon = document.createElement('span');
-			icon.className = 'uk-align-left';
-			icon.setAttribute('uk-icon', 'icon: home; ratio: 1');
-			cardHeaderDiv.appendChild(icon);
+			button.appendChild(cardHeaderDiv);
 			
 			var cardBodyDiv = document.createElement('div');
 			cardBodyDiv.className = 'uk-card-body uk-grid-collapse';
 			cardBodyDiv.setAttribute('uk-grid', '');
-			cardDiv.appendChild(cardBodyDiv);
+			button.appendChild(cardBodyDiv);
 			
-			var div1 = document.createElement('div');
-			div1.className = 'uk-width-1-1'
-			cardBodyDiv.appendChild(div1);
+			var divFooter = document.createElement('div');
+			divFooter.className = 'uk-card-footer'
+			cardDiv.appendChild(divFooter);
+		
+			var icon = document.createElement('span');
+			icon.className = 'uk-align-left';
+			icon.setAttribute('uk-icon', 'icon: home; ratio: 1');
+			cardHeaderDiv.appendChild(icon);
+		
+			var nameDiv = document.createElement('div');
+			nameDiv.className = 'uk-width-1-1';
+			cardBodyDiv.appendChild(nameDiv);
 			
 			var nameText = document.createElement('font');
-			nameText.className = 'uk-align-left uk-margin-remove';
+			nameText.className = 'uk-align-left uk-text-truncate';
 			nameText.setAttribute('size', '2');
-			nameText.innerHTML = lights[i].name;
-			div1.appendChild(nameText);
+			nameText.innerHTML = lights[i].name.toUpperCase();
+			nameDiv.appendChild(nameText);
 			
-			var div2 = document.createElement('div');
-			cardBodyDiv.appendChild(div2);
+			var stateDiv = document.createElement('div');
+			stateDiv.className = 'uk-width-1-1';
+			cardBodyDiv.appendChild(stateDiv);
 			
 			var stateText = document.createElement('font');
-			stateText.className = 'uk-align-left uk-margin-remove';
+			stateText.className = 'uk-align-left';
 			stateText.setAttribute('size', '2');
-			stateText.innerHTML = lights[i].active ? '100%' : 'off';
-			div2.appendChild(stateText);
+			stateText.innerHTML = lights[i].active ? '100%' : 'OFF';
+			stateDiv.appendChild(stateText);
+		
+			var slider = document.createElement('input');
+			slider.className = 'uk-range uk-margin-small-top';
+			slider.id = i;
+			slider.setAttribute('type', 'range');
+			slider.setAttribute('min', '1');
+			slider.setAttribute('max', '254');
+			slider.setAttribute('step', '1');
+			slider.setAttribute('value', lights[i].bri);
+			slider.onchange = function() { SwitchLightBrightness(this.id, this.value) };
+			divFooter.appendChild(slider);
+		}
 	}
-}
 	
 </script>
