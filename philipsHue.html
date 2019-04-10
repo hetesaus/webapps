@@ -153,18 +153,22 @@
 			var div1 = document.createElement('div');
 			div1.className = 'uk-width-1-1'
 			cardBodyDiv.appendChild(div1);
-			var nameText = document.createElement('p');
-			nameText.className = 'uk-align-left uk-text-small';
+			
+			var nameText = document.createElement('font');
+			nameText.className = 'uk-align-left';
+			nameText.setAttribute('size', '2');
 			nameText.innerHTML = lights[i].name;
 			div1.appendChild(nameText);
 			
 			var div2 = document.createElement('div');
 			cardBodyDiv.appendChild(div2);
-			var stateText = document.createElement('p');
-			stateText.className = 'uk-align-left uk-text-small';
+			
+			var stateText = document.createElement('font');
+			stateText.className = 'uk-align-left';
+			stateText.setAttribute('size', '2');
 			stateText.innerHTML = lights[i].active ? '100%' : 'off';
 			div2.appendChild(stateText);
-		}
-  }
+	}
+}
 	
 </script>
