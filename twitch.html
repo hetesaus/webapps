@@ -1,11 +1,12 @@
 <style>
 
-    body {
-        background-color: #18141e;
-    }
-    .overlayButton {
-        opacity: 0.0;
-    }
+    	body {
+        	background-color: #18141e;
+    	}
+	
+    	.overlayButton {
+        	opacity: 0.0;
+    	}
 
 </style>
 <html>
@@ -54,125 +55,125 @@
 
 <script>
 
-    var clientId = '';
-    var oauth = '';
-    var players = [];
-    var channels = [];
-    var layout = "video";
-    var volume = 1;
+    	var clientId = '';
+    	var oauth = '';
+    	var players = [];
+    	var channels = [];
+    	var layout = "video";
+    	var volume = 1;
 
-    window.addEventListener('resize', function(event){
-        SetPlayerSizes();
-    });
+    	window.addEventListener('resize', function(event){
+        	SetPlayerSizes();
+    	});
 
-    function Init() {
-        GetQueryString();
-        SetChannels();
-    }
+    	function Init() {
+        	GetQueryString();
+        	SetChannels();
+    	}
 
-    function GetQueryString(){
-        let url = new URL(location.href);
-        let searchParams = new URLSearchParams(url.search);
+    	function GetQueryString(){
+        	let url = new URL(location.href);
+        	let searchParams = new URLSearchParams(url.search);
 
-        clientId = searchParams.get('clientid');
-        oauth = searchParams.get('oauth');    
+        	clientId = searchParams.get('clientid');
+        	oauth = searchParams.get('oauth');    
 
-        var channelParam = searchParams.get('channels');
-        if(channelParam != null){
-            channels = channelParam.split(' ');
-        }
-    }
+        	var channelParam = searchParams.get('channels');
+        	if(channelParam != null){
+            		channels = channelParam.split(' ');
+        	}
+    	}
 
-    function SetChannels(){
-        for(i = 0; i < channels.length; i ++){
-            var player =
-                new Twitch.Player("player" + i,
-                {
-                    width: GetPlayerWidth(i),
-                    height: GetPlayerHeight(i),
-                    layout: layout,
-                    channel: channels[i],
-                });
-            if(i > 0){
-                player.setVolume(0);
-                player.setQuality("360p30");
-            } else {
-                player.setVolume(1);
-                player.setQuality("auto");
-            }
-            players.push(player);
-        }
-    }    
+    	function SetChannels(){
+        	for(i = 0; i < channels.length; i ++){
+            		var player =
+                		new Twitch.Player("player" + i,
+                		{
+                    			width: GetPlayerWidth(i),
+                    			height: GetPlayerHeight(i),
+                    			layout: layout,
+                    			channel: channels[i],
+                		});
+			if(i > 0){
+                		player.setVolume(0);
+                		player.setQuality("360p30");
+			} else {
+				player.setVolume(1);
+				player.setQuality("auto");
+			}
+			players.push(player);
+		}
+    	}    
 
-    function SwitchChannel(id){
-        if(channels[id] == undefined){
-            return;
-        }
+    	function SwitchChannel(id){
+        	if(channels[id] == undefined){
+            		return;
+        	}
 
-        var old = channels[0];
-        channels[0] = channels[id];
-        channels[id] = old;
+        	var old = channels[0];
+        	channels[0] = channels[id];
+        	channels[id] = old;
 
-        players[0].setChannel(channels[0]);
-        players[id].setChannel(channels[id]);
-    }
+        	players[0].setChannel(channels[0]);
+        	players[id].setChannel(channels[id]);
+    	}
 
-    function ToggleMute (){    
-        var curVolume = players[0].getVolume();
-        if(curVolume > 0) {
-            volume = curVolume;
-            players[0].setVolume(0);
-        } else {
-            players[0].setVolume(volume);
-        }
-    }
+    	function ToggleMute (){    
+        	var curVolume = players[0].getVolume();
+        	if(curVolume > 0) {
+            		volume = curVolume;
+            		players[0].setVolume(0);
+        	} else {
+            		players[0].setVolume(volume);
+        	}
+    	}
 
 	function Clip(){
 		players[0].setClip();
 	}
 	
-    function OpenChat(){
-        var url = 'https://www.twitch.tv/popout/' + channels[0] + '/chat?popout=';
-        window.open(url, "", "width=400,height=700");
-    }
+    	function OpenChat(){
+        	var url = 'https://www.twitch.tv/popout/' + channels[0] + '/chat?popout=';
+        	window.open(url, "", "width=400,height=700");
+    	}
 	
 	function ToggleFullscreen(){
 		players[0].setFullscreen(true);
 	}
 
-    function Redirect(){
-        var url = 'twitchSelection.html' + '?channels=' + channels.join('+');
-        if (oauth != '' || clientId != ''){
-            url += '&clientid=' + clientId + '&oauth=' + oauth;
-        }
-        window.location.href = url;
-    }
+    	function Redirect(){
+        	var url = 'twitchSelection.html' + '?channels=' + channels.join('+');
+        	if (oauth != '' || clientId != ''){
+            		url += '&clientid=' + clientId + '&oauth=' + oauth;
+        	}
+        	window.location.href = url;
+    	}
 
-    function SetPlayerSizes(){
-        for(var i = 0; i < 4; i++){
-            players[i].setWidth(GetPlayerWidth(i));
-            players[i].setHeight(GetPlayerHeight(i));
-        }
-    }
+    	function SetPlayerSizes(){
+        	for(var i = 0; i < 4; i++){
+            		players[i].setWidth(GetPlayerWidth(i));
+            		players[i].setHeight(GetPlayerHeight(i));
+        	}
+    	}
 
-    function GetPlayerWidth(index){
-        var windowWidth = GetWindowWidth();
-        var width = 
-            index == 0
-                ? windowWidth - (windowWidth / 4)
-                : windowWidth / 4;
-        return width;
-    }
+    	function GetPlayerWidth(index){
+        	var windowWidth = GetWindowWidth();
+        	var width = 
+            	index == 0
+                	? windowWidth - (windowWidth / 4)
+               	 	: windowWidth / 4;
+        	return width;
+    	}	
 
-    function GetPlayerHeight(index){
-        var width = GetPlayerWidth(index);
-        return width / 16 * 9;
-    }
+    	function GetPlayerHeight(index){
+       	 	var width = GetPlayerWidth(index);
+        	return width / 16 * 9;
+    	}
 
-    function GetWindowWidth(){
-        return window.innerWidth
-        || document.documentElement.clientWidth
-        || document.body.clientWidth;
-    }
+    	function GetWindowWidth(){
+        	return window.innerWidth
+        	|| document.documentElement.clientWidth
+        	|| document.body.clientWidth;
+	}
 
 </script>
