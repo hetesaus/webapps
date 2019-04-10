@@ -39,8 +39,8 @@
 
 <script>
 
-  	var philipsHueIp = '';
-  	var philipsHueUserId = '';
+  	var ip = '';
+  	var userId = '';
 	var lights = [];
 	var updateTime;
 	var cooldown = 30000;
@@ -62,8 +62,8 @@
     		let url = new URL(location.href);
     		let searchParams = new URLSearchParams(url.search);
         
-    		philipsHueIp = searchParams.get('philipsHueIp');
-    		philipsHueUserId = searchParams.get('philipsHueUserId');    
+    		ip = searchParams.get('ip');
+    		userId = searchParams.get('userId');    
   	}
   
 	function TurnOffAll(){
@@ -74,7 +74,7 @@
 	}
 	
 	function GetLights(){
-		var url = 'https://' + philipsHueIp + '/api/' + philipsHueUserId + '/lights';
+		var url = 'https://' + ip + '/api/' + userId + '/lights';
 		var request = new XMLHttpRequest();
 		request.responseType = 'json';
         	request.open('GET', url, true);
@@ -108,7 +108,7 @@
 	function SwitchLight(id){
 		lights[id].active = !lights[id].active;
 	
-		var url = 'https://' + philipsHueIp + '/api/' + philipsHueUserId + '/lights/' + lights[id].id + '/state';
+		var url = 'https://' + ip + '/api/' + userId + '/lights/' + lights[id].id + '/state';
 		var json = JSON.stringify({ on: lights[id].active, sat: lights[id].sat, bri: lights[id].bri, hue: lights[id].hue });
 		var request = new XMLHttpRequest();
 		request.open('PUT', url);
