@@ -108,7 +108,7 @@
 	function SwitchLight(id){
 		lights[id].active = !lights[id].active;
 	
-		var url = 'http://' + philipsHueIp + '/api/' + philipsHueUserId + '/lights/' + lights[id].id + '/state';
+		var url = 'https://' + philipsHueIp + '/api/' + philipsHueUserId + '/lights/' + lights[id].id + '/state';
 		var json = JSON.stringify({ on: lights[id].active, sat: lights[id].sat, bri: lights[id].bri, hue: lights[id].hue });
 		var request = new XMLHttpRequest();
 		request.open('PUT', url);
