@@ -155,7 +155,7 @@
 			cardBodyDiv.appendChild(div1);
 			
 			var nameText = document.createElement('font');
-			nameText.className = 'uk-align-left';
+			nameText.className = 'uk-align-left uk-margin-remove';
 			nameText.setAttribute('size', '2');
 			nameText.innerHTML = lights[i].name;
 			div1.appendChild(nameText);
@@ -164,7 +164,7 @@
 			cardBodyDiv.appendChild(div2);
 			
 			var stateText = document.createElement('font');
-			stateText.className = 'uk-align-left';
+			stateText.className = 'uk-align-left uk-margin-remove';
 			stateText.setAttribute('size', '2');
 			stateText.innerHTML = lights[i].active ? '100%' : 'off';
 			div2.appendChild(stateText);
