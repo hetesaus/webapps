@@ -10,43 +10,41 @@
 
 </style>
 <html>
-    <head>
-        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css' />
-    </head>
-    <body onload="Init()">
-        <div class="uk-grid-collapse" uk-grid>
-            <div class="uk-width-1-1" style="background-color:#342953;">
-                <a><img src="images/twitch.png" onclick="Redirect()" height="50" width="50"></a>
-            </div>
-            <div class="uk-width-1-4">
-                <div class="uk-grid-collapse uk-child-width-1-1" uk-grid>
-                    <div class="uk-inline">
-                        <div id="player1"></div>
-                        <button class="overlayButton uk-width-1-1 uk-overlay-default uk-position-cover" onclick=SwitchChannel(1)></button>
-                    </div>
-                    <div class="uk-inline">
-                        <div id="player2"></div>
-                        <button class="overlayButton uk-width-1-1 uk-overlay-default uk-position-cover" onclick=SwitchChannel(2)></button>
-                    </div>
-                    <div class="uk-inline">
-                        <div id="player3"></div>        
-                        <button class="overlayButton uk-width-1-1 uk-overlay-default uk-position-cover" onclick=SwitchChannel(3)></button>
-                    </div>
-                </div>
-            </div>
-            <div class="uk-width-3-4 uk-inline">
-                <div id="player0" class="uk-width-1-1"></div>
-                <button class="overlayButton uk-width-1-1 uk-overlay-default uk-position-cover" onclick=ToggleMute()></button>
-            </div>
-            <div class="uk-width-1-1 uk-margin-small-right">
-				<div class="uk-align-right">
-					<a class="uk-margin-small-top" onclick="Clip()" uk-icon="icon: video-camera; ratio: 1.5" uk-tooltip="Clip"></a>
-					<a class="uk-margin-small-top" onclick="OpenChat()" uk-icon="icon: commenting; ratio: 1.5" uk-tooltip="Open chat"></a>
-					<a class="uk-margin-small-top" onclick="ToggleFullscreen()" uk-icon="icon: expand; ratio: 1.5" uk-tooltip="Fullscreen"></a>
-				</div>
-            </div>
-        </div>
-    </body>
+    	<head>
+        	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css' />
+    	</head>
+    	<body onload="Init()">
+        	<div class="uk-grid-collapse" uk-grid>
+            		<div class="uk-width-1-1" style="background-color:#342953;">
+                		<a><img src="images/twitch.png" onclick="Redirect()" height="50" width="50"></a>
+            		</div>
+            		<div class="uk-width-1-4">
+                		<div class="uk-grid-collapse uk-child-width-1-1" uk-grid>
+                    			<div class="uk-inline">
+                        			<div id="player1"></div>
+                        			<button class="overlayButton uk-width-1-1 uk-overlay-default uk-position-cover" onclick=SwitchChannel(1)></button>
+					</div>
+                    			<div class="uk-inline">
+                        			<div id="player2"></div>
+                        			<button class="overlayButton uk-width-1-1 uk-overlay-default uk-position-cover" onclick=SwitchChannel(2)></button>
+                    			</div>
+                    			<div class="uk-inline">
+                       				<div id="player3"></div>        
+                        			<button class="overlayButton uk-width-1-1 uk-overlay-default uk-position-cover" onclick=SwitchChannel(3)></button>
+                   			 </div>
+                		</div>
+            		</div>
+            		<div class="uk-width-3-4 uk-inline">
+                		<div id="player0" class="uk-width-1-1"></div>
+                		<button class="overlayButton uk-width-1-1 uk-overlay-default uk-position-cover" onclick=ToggleMute()></button>
+            		</div>
+            		<div class="uk-width-1-1 uk-margin-small-right">
+				<a class="uk-margin-small-top" onclick="ToggleFullscreen()" uk-icon="icon: expand; ratio: 1.5" uk-tooltip="Fullscreen"></a>
+				<a class="uk-margin-small-top" onclick="Clip()" uk-icon="icon: video-camera; ratio: 1.5" uk-tooltip="Clip"></a>
+				<a class="uk-margin-small-top" onclick="OpenChat()" uk-icon="icon: commenting; ratio: 1.5" uk-tooltip="Open chat"></a>
+            		</div>
+        	</div>
+	</body>
 </html>
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js'></script>
@@ -129,7 +127,7 @@
     	}
 
 	function Clip(){
-		players[0].getPlaylist().getClip()
+		//players[0].getPlaylist().getClip()
 	}
 	
     	function OpenChat(){
