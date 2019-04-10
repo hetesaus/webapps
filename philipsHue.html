@@ -1,0 +1,170 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+	</head>
+	<body onload="Init()">
+		<div class="uk-inline uk-width-4-5 uk-position-large uk-position-top-center uk-vertical-align">
+			<div class="uk-grid-collapse uk-animation-slide-top uk-child-width-1-6" uk-grid>			
+				<div class="uk-width-expand">
+					<img src="images/philipsHue.png" width="145">
+				</div>
+				<div>
+					<button class="uk-button uk-button-default uk-width-1-1 uk-margin-top" id="updateLabel" disabled></button>
+				</div>
+				<div>
+					<button class="uk-button uk-button-default uk-width-1-1 uk-margin-top" onclick="GetLights()">
+						<span uk-icon="refresh"></span>
+						<span>Refresh</span>
+					</button>
+				</div>
+				<div>
+					<button class="uk-button uk-button-default uk-width-1-1 uk-margin-top" onclick="TurnOffAll()">
+						<span uk-icon="ban"></span>
+						<span>Shutdown</span>
+					</button>
+				</div>
+			</div>
+			<hr>
+			<div class="uk-margin uk-animation-slide-bottom-medium">
+				<div id="container" class="uk-grid-small uk-child-width-1-6" uk-grid/>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="settings.js"></script>
+
+<script>
+
+  var philipsHueIp = '';
+  var philipsHueUserId = '';
+	var lights = [];
+	var updateTime;
+	var cooldown = 30000;
+	
+	document.addEventListener('visibilitychange', function(e) {
+		if(document.hidden == false){
+			if(new Date().getTime() - updateTime > cooldown){
+				GetLights();
+			}
+		}
+	});	
+	
+	function Init(){
+    GetQueryString();
+		GetLights();
+	}
+	
+  function GetQueryString(){
+    let url = new URL(location.href);
+    let searchParams = new URLSearchParams(url.search);
+        
+    philipsHueIp = searchParams.get('philipsHueIp');
+    philipsHueUserId = searchParams.get('philipsHueUserId');    
+  }
+  
+	function TurnOffAll(){
+		for(var i = 0; i < lights.length; i ++){
+			lights[i].active = true;
+			SwitchLight(i);
+		}
+	}
+	
+	function GetLights(){
+		var url = 'http://' + philipsHueIp + '/api/' + philipsHueUserId + '/lights';
+		var request = new XMLHttpRequest();
+		request.responseType = 'json';
+        request.open('GET', url, true);
+		request.onload = function () {
+			var data = request.response;
+			lights = [];
+			
+			for(var i = 0; i < 99; i++){
+				if(data[i] != undefined){
+					lights.push(
+                    { 
+                        id: i, 
+						name: data[i].name,
+						active: data[i].state.on,
+						sat: data[i].sat,
+						bri: data[i].bri,
+						hue: data[i].hue,
+                    });
+				}
+			}
+			CreateButtons();
+    }
+		request.send(); 
+		
+		updateTime = new Date().getTime();
+		var hours = Math.floor((updateTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) + 1;
+		var minutes = Math.floor((updateTime % (1000 * 60 * 60)) / (1000 * 60));
+		updateLabel.innerHTML = "last updated: " + hours + ":" + String("0" + minutes).slice(-2);
+  }
+	
+	function SwitchLight(id){
+		lights[id].active = !lights[id].active;
+	
+		var url = 'http://' + philipsHueIp + '/api/' + philipsHueUserId + '/lights/' + lights[id].id + '/state';
+		var json = JSON.stringify({ on: lights[id].active, sat: lights[id].sat, bri: lights[id].bri, hue: lights[id].hue });
+		var request = new XMLHttpRequest();
+		request.open('PUT', url);
+		request.setRequestHeader('Content-Type', 'application/json');
+		request.send(json);
+		
+		CreateButtons();
+	}
+	
+	function CreateButtons(){
+		var container = document.getElementById('container');
+		container.innerHTML = '';
+		
+		for(var i = 0; i < lights.length; i++){
+			var button = document.createElement('button');
+			button.onclick = function() { SwitchLight(this.value); }
+			button.value = i;
+			button.className = 'uk-button uk-button-link';
+			container.appendChild(button);
+			
+			var cardDiv = document.createElement('div');
+			cardDiv.className = 
+				lights[i].active 
+					? 'uk-border-rounded uk-card uk-card-small uk-card-body uk-card-hover uk-width-1-1 uk-card-primary' 
+					: 'uk-border-rounded uk-card uk-card-small uk-card-body uk-card-hover uk-width-1-1 uk-card-default';
+			button.appendChild(cardDiv);
+			
+			var cardHeaderDiv = document.createElement('div');
+			cardHeaderDiv.className = 'uk-card-header';
+			cardDiv.appendChild(cardHeaderDiv);
+			
+			var icon = document.createElement('span');
+			icon.className = 'uk-align-left';
+			icon.setAttribute('uk-icon', 'icon: home; ratio: 1');
+			cardHeaderDiv.appendChild(icon);
+			
+			var cardBodyDiv = document.createElement('div');
+			cardBodyDiv.className = 'uk-card-body uk-grid-collapse';
+			cardBodyDiv.setAttribute('uk-grid', '');
+			cardDiv.appendChild(cardBodyDiv);
+			
+			var div1 = document.createElement('div');
+			div1.className = 'uk-width-1-1'
+			cardBodyDiv.appendChild(div1);
+			var nameText = document.createElement('p');
+			nameText.className = 'uk-align-left uk-text-small';
+			nameText.innerHTML = lights[i].name;
+			div1.appendChild(nameText);
+			
+			var div2 = document.createElement('div');
+			cardBodyDiv.appendChild(div2);
+			var stateText = document.createElement('p');
+			stateText.className = 'uk-align-left uk-text-small';
+			stateText.innerHTML = lights[i].active ? '100%' : 'off';
+			div2.appendChild(stateText);
+		}
+  }
+	
+</script>
