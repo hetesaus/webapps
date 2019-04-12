@@ -1,6 +1,6 @@
 var facts = 
 [
-    "Mercury and Venus are the only two planets in our solar system that do not have any moons.",
+    	"Mercury and Venus are the only two planets in our solar system that do not have any moons.",
 	"If a star passes too close to a black hole, it can be torn apart.",
 	"The hottest planet in our solar system is Venus. Most people often think that it would be Mercury, as it’s the closest planet to the sun. This is because Venus has a lot of gasses in its atmosphere, which causes the Greenhouse Effect.",
 	"The solar system is around 4.6 billion years old. Scientists estimate that it will probably last another 5,000 million years.",
