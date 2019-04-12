@@ -130,19 +130,19 @@
 				buttonDiv.appendChild(deleteButton);		
 				
 				var dateDiv = document.createElement('div');
-				dateDiv.className = 'uk-width-1-3 uk-margin-remove'
+				dateDiv.className = 'uk-width-1-3'
 				gridDiv.appendChild(dateDiv);
 				var dateSpan = document.createElement('span'); 
 				dateSpan.id = 'countdownDate' + i; 
-				dateSpan.className = 'uk-title uk-text-large uk-align-right'
+				dateSpan.className = 'uk-title uk-text-large uk-align-right uk-margin-remove'
 				dateSpan.innerHTML = countdowns[i].date; 
 				dateDiv.appendChild(dateSpan);
 			
 				var titleDiv = document.createElement('div');
-				titleDiv.className = 'uk-width-1-3 uk-margin-remove'
+				titleDiv.className = 'uk-width-1-3'
 				gridDiv.appendChild(titleDiv);
 				var titleName = document.createElement('span');
-				titleName.className = 'uk-title uk-text-primary uk-text-large';
+				titleName.className = 'uk-title uk-text-primary uk-text-large uk-margin-remove';
 				titleName.innerHTML = countdowns[i].name;
 				titleDiv.appendChild(titleName);
 				
