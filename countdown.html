@@ -28,36 +28,36 @@
 
 <script>
 
-    var countdowns = [];
+    	var countdowns = [];
 	var list;
 	
-    function Init(){
+    	function Init(){
 		list = document.getElementById('curCountdownList');
 	
-        setInterval(UpdateList, 1000);
-        SetExampleDate();
+        	setInterval(UpdateList, 1000);
+        	SetExampleDate();
 		LoadCountdowns();
-    }
+    	}
 
 	function GetDate(){
 		var date = new Date();	
 		return date;
 	}
 	
-    function SetExampleDate(){
-        var time = GetDate();
-        var year = time.getFullYear();
-        var month = time.getMonth() + 1;
-        var day = time.getDate();
-        var hour = time.getHours() + 1;
+    	function SetExampleDate(){
+        	var time = GetDate();
+        	var year = time.getFullYear();
+        	var month = time.getMonth() + 1;
+        	var day = time.getDate();
+        	var hour = time.getHours() + 1;
 		
 		if(hour == 24){
 			hour = 0;
 			day = day + 1;
 		}
-        var formatDate = year + '-' + month + '-' + day + ' ' + hour + ':00:00';
-        document.getElementById('dateInput').value = formatDate;
-    }
+        	var formatDate = year + '-' + month + '-' + day + ' ' + hour + ':00:00';
+        	document.getElementById('dateInput').value = formatDate;
+    	}
 
 	function LoadCountdowns(){
 		for(var i = 0; i < countdownList.length; i++){
@@ -65,48 +65,51 @@
 		}
 	}
 	
-    function UpdateList(){
-        if(countdowns.length > 0){        
-            for(var i = 0; i < countdowns.length; i ++){
-                var date = countdowns[i].date.getTime();
-                var now = GetDate().getTime();
-                var remaining = date - now;
-				
-				var q = Math.abs(now - countdowns[i].startDate);
-				var d = Math.abs(date - countdowns[i].startDate);
-				var progress = Math.round((q/d)*100);
-			
-                var days = Math.floor(remaining / (1000 * 60 * 60 * 24));
-                var hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+    	function UpdateList(){
+        	if(countdowns == null || countdowns.length == 0){ 
+			return;	
+		}
+		
+		for(var i = 0; i < countdowns.length; i ++){
+			var date = countdowns[i].date.getTime();
+			var now = GetDate().getTime();
+			var remaining = date - now;
 
-                var formattedDate = '';
-				formattedDate += days + 'd ';
-				formattedDate += String("0" + hours).slice(-2) + 'h ';
-				formattedDate += String("0" + minutes).slice(-2) + 'm ';
-				formattedDate += String("0" + seconds).slice(-2) + 's';
+			var q = Math.abs(now - countdowns[i].startDate);
+			var d = Math.abs(date - countdowns[i].startDate);
+			var progress = Math.round((q/d)*100);
 
-                if(remaining < 0){
-                    formattedDate = 'starting';
-					alert(countdowns[i].name + ' starting');
-					countdowns.splice(i, 1);
-                    BuildList();
-                }
-							
-				document.getElementById('countdownDate' + i).innerHTML = formattedDate;
-				document.getElementById('countdownProgress' + i).setAttribute('value', progress);
-				document.getElementById('countdownPercent' + i).innerHTML = progress + '%';
-            }
-        }
-    }
+			var days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			var minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+			var formattedDate = '';
+			formattedDate += days + 'd ';
+			formattedDate += String("0" + hours).slice(-2) + 'h ';
+			formattedDate += String("0" + minutes).slice(-2) + 'm ';
+			formattedDate += String("0" + seconds).slice(-2) + 's';
+
+			if(remaining < 0){
+				formattedDate = 'starting';
+				alert(countdowns[i].name + ' starting');
+				countdowns.splice(i, 1);
+				BuildList();
+			}
+
+			document.getElementById('countdownDate' + i).innerHTML = formattedDate;
+			document.getElementById('countdownProgress' + i).setAttribute('value', progress);
+			document.getElementById('countdownPercent' + i).innerHTML = progress + '%';
+		}
+    	}
 	
 	function BuildList(){
 		while(list.getElementsByTagName('li').length > 0){
 			list.removeChild(list.childNodes[0]);
 		}
+		
 		if(countdowns.length > 0){
-            for(var i = 0; i < countdowns.length; i ++){
+            		for(var i = 0; i < countdowns.length; i ++){
 				var li = document.createElement('li');
 				
 				var cardDiv = document.createElement('div');
@@ -131,7 +134,7 @@
 				gridDiv.appendChild(dateDiv);
 				var dateSpan = document.createElement('span'); 
 				dateSpan.id = 'countdownDate' + i; 
-				dateSpan.className = 'uk-title uk-text-large uk-align-right uk-text-truncate'
+				dateSpan.className = 'uk-title uk-text-large uk-align-right'
 				dateSpan.innerHTML = countdowns[i].date; 
 				dateDiv.appendChild(dateSpan);
 			
@@ -156,51 +159,14 @@
 				progress.setAttribute('value', '0');
 				progress.setAttribute('max', '100');
 				li.appendChild(progress);
-
 				
-				
-				<!-- var countdownDiv = document.createElement('div'); -->
-				<!-- countdownDiv.setAttribute('uk-countdown', 'date: 2019-01-26T17:43:46+00:00'); -->
-				<!-- dataDiv.appendChild(countdownDiv); -->
-				
-				<!-- var spanDays = document.createElement('span'); -->
-				<!-- spanDays.className = 'uk-countdown-number uk-countdown-days uk-text-small'; -->
-				<!-- countdownDiv.appendChild(spanDays); -->
-				
-				<!-- var spanSeperator1 = document.createElement('span'); -->
-				<!-- spanSeperator1.className = 'uk-countdown-seperator'; -->
-				<!-- spanSeperator1.innerHTML = ':'; -->
-				<!-- countdownDiv.appendChild(spanSeperator1); -->
-				
-				<!-- var spanHours = document.createElement('span'); -->
-				<!-- spanHours.className = 'uk-countdown-number uk-countdown-hours uk-text-small'; -->
-				<!-- countdownDiv.appendChild(spanHours); -->
-				
-				<!-- var spanSeperator2 = document.createElement('span'); -->
-				<!-- spanSeperator2.className = 'uk-countdown-seperator'; -->
-				<!-- spanSeperator2.innerHTML = ':'; -->
-				<!-- countdownDiv.appendChild(spanSeperator2); -->
-				
-				<!-- var spanMinutes = document.createElement('span'); -->
-				<!-- spanMinutes.className = 'uk-countdown-number uk-countdown-minutes uk-text-small'; -->
-				<!-- countdownDiv.appendChild(spanMinutes); -->
-				
-				<!-- var spanSeperator3 = document.createElement('span'); -->
-				<!-- spanSeperator3.className = 'uk-countdown-seperator'; -->
-				<!-- spanSeperator3.innerHTML = ':'; -->
-				<!-- countdownDiv.appendChild(spanSeperator3); -->
-				
-				<!-- var spanSeconds = document.createElement('span'); -->
-				<!-- spanSeconds.className = 'uk-countdown-number uk-countdown-seconds uk-text-small'; -->
-				<!-- countdownDiv.appendChild(spanSeconds); -->
-
 				list.appendChild(li);
 			}
 		}
 		UpdateList();
 	}
 	
-    function AddCountdown(){
+    	function AddCountdown(){
 		var dateInput = document.getElementById('dateInput').value;
 		var nameInput = document.getElementById('nameInput').value;
 		if(dateInput === '' || 
@@ -208,18 +174,18 @@
 			return;
 		}
 		document.getElementById('dateInput').value = '';
-        document.getElementById('nameInput').value = '';
+        	document.getElementById('nameInput').value = '';
 		
 		AddToCountDownList(nameInput, dateInput);
 		SetExampleDate();
-    }
+   	}
 
 	function AddToCountDownList(nameInput, dateInput){
 		countdowns.push({ date: new Date(dateInput), name: nameInput, startDate: GetDate() });
-        countdowns.sort(function(a,b){
-            var dateA = new Date(a.date), dateB = new Date(b.date);
-            return dateA - dateB;
-        });
+		countdowns.sort(function(a,b){
+            		var dateA = new Date(a.date), dateB = new Date(b.date);
+            		return dateA - dateB;
+        	});
 		BuildList();
 	}
 	
