@@ -10,13 +10,33 @@
 				</div>
 				<div class="uk-width-auto">
 					<span class="uk-width-1-1 uk-margin-small-right uk-margin-top" id="updateLabel"></span>
+					<a class="uk-icon-button" href="#settingsModal" uk-toggle uk-icon="cog"></a>
+					<div id="settingsModal" uk-modal>
+						<div class="uk-modal-dialog">
+							<button class="uk-modal-close-default" type="button" uk-close></button>
+							<div class="uk-modal-body">
+								<div class="uk-margin">
+									<input id="inputIp" class="uk-input" type="text" placeholder="IP">
+								</div>
+								<div class="uk-margin">
+									<input id="inputUserId" class="uk-input" type="text" placeholder="User ID">
+								</div>
+							</div>
+							<div class="uk-modal-footer uk-text-right">
+								<button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+								<button class="uk-button uk-button-primary" onclick="SetSettings()" type="button">Save</button>
+							</div>
+						</div>
+					</div>
 					<a onclick="GetLights()" class="uk-icon-button" uk-icon="refresh"></a>
 					<a onclick="TurnOffAll()" class="uk-icon-button" uk-icon="ban"></a>
 				</div>
 			</div>
 			<hr>
 			<div class="uk-margin uk-animation-slide-bottom-medium">
-				<div id="container" class="uk-grid-small uk-child-width-1-6@xl uk-child-width-1-5@l uk-child-width-1-4@m uk-child-width-1-3@s" uk-grid/>
+				<div id="container" class="uk-grid-small uk-child-width-1-6@xl uk-child-width-1-5@l uk-child-width-1-4@m uk-child-width-1-3@s" uk-grid>
+					<span class="uk-width-1-1">Please enter the IP of the Philips Hue Bridge and Hue User ID</span>
+				</div>
 			</div>
 		</div>
 	</body>
@@ -28,7 +48,6 @@
 <script src="settings.js"></script>
 
 <script>
-
   	var ip = '';
   	var userId = '';
 	var lights = [];
@@ -39,17 +58,17 @@
 			GetLights();
 		}
 	});	
-	
+		
 	function Init(){
-    		GetQueryString();
+		GetQueryString();
 		GetLights();
 	}
 	
   	function GetQueryString(){
-    		let url = new URL(location.href);
-    		let searchParams = new URLSearchParams(url.search);
-    		ip = searchParams.get('ip');
-    		userId = searchParams.get('userId');    
+		let url = new URL(location.href);
+		let searchParams = new URLSearchParams(url.search);
+		ip = searchParams.get('ip');
+		userId = searchParams.get('userId');    
   	}
   
 	function TurnOffAll(){
@@ -59,15 +78,26 @@
 		}
 	}
 	
+	function SetSettings(){
+		ip = document.getElementById('inputIp').value.trim();
+		userId = document.getElementById('inputUserId').value.trim();
+		UIkit.modal(document.getElementById('settingsModal')).hide();
+		GetLights();
+	}
+	
 	function GetLights(){
+		if(ip == '' || ip == null || userId == '' || userId == null){
+			return;
+		}
+	
 		var url = 'https://' + ip + '/api/' + userId + '/lights';
 		var request = new XMLHttpRequest();
 		request.responseType = 'json';
-        	request.open('GET', url, true);
+		request.open('GET', url, true);
 		request.onload = function () {
 			var data = request.response;
 			lights = [];
-			
+				
 			for(var i = 0; i < 99; i++){
 				if(data[i] != undefined){
 					lights.push(
@@ -75,14 +105,12 @@
 						id: i, 
 						name: data[i].name,
 						active: data[i].state.on,
-						bri: data[i].state.on 
-							? parseInt(data[i].state.bri) 
-							: 0
+						bri: data[i].state.on ? parseInt(data[i].state.bri) : 0
 					});
 				}
 			}
 			CreateButtons();
-    		}	
+		}	
 		request.send(); 
 		
 		updateTime = new Date().getTime();
@@ -93,19 +121,13 @@
 	
 	function SwitchLight(id){
 		lights[id].active = !lights[id].active;
-		lights[id].bri = 
-			lights[id].active 
-				? 254 
-				: 0;
+		lights[id].bri = lights[id].active ? 254 : 0;
 		AlterLight(id);
 	}
 	
 	function SwitchLightBrightness(id, bri){
 		lights[id].bri = parseInt(bri);
-		lights[id].active = 
-			bri > 1 
-				? true 
-				: false; 
+		lights[id].active = bri > 1 ? true : false; 
 		AlterLight(id);
 	}
 	
