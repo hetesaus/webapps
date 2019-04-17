@@ -4,9 +4,12 @@
         	background-color: #18141e;
     	}
 	
+	.outlined {
+		outline: #4CAF50 solid 10px;
+	}
+	
     	.overlayButton {
         	opacity: 0.0;
-		outline: #4CAF50 solid 10px;
     	}
 
 </style>
@@ -21,21 +24,21 @@
             		</div>
             		<div class="uk-width-1-4">
                 		<div class="uk-grid-collapse uk-child-width-1-1" uk-grid>
-                    			<div class="uk-inline">
+                    			<div class="uk-inline outlined">
                         			<div id="player1"></div>
                         			<button class="overlayButton uk-width-1-1 uk-overlay-default uk-position-cover" onclick=SwitchChannel(1)></button>
 					</div>
-                    			<div class="uk-inline">
+                    			<div class="uk-inline outlined">
                         			<div id="player2"></div>
                         			<button class="overlayButton uk-width-1-1 uk-overlay-default uk-position-cover" onclick=SwitchChannel(2)></button>
                     			</div>
-                    			<div class="uk-inline">
+                    			<div class="uk-inline outlined">
                        				<div id="player3"></div>        
                         			<button class="overlayButton uk-width-1-1 uk-overlay-default uk-position-cover" onclick=SwitchChannel(3)></button>
                    			 </div>
                 		</div>
             		</div>
-            		<div class="uk-width-3-4 uk-inline">
+            		<div class="uk-width-3-4 uk-inline outlined">
                 		<div id="player0" class="uk-width-1-1"></div>
                 		<button class="overlayButton uk-width-1-1 uk-overlay-default uk-position-cover" onclick=ToggleMute()></button>
             		</div>
