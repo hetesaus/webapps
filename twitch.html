@@ -9,14 +9,15 @@
 	}
 	
 	.channelName {
+		font-size: 18px;
 		font-weight: bold;
 		position: absolute;
-		left: 10px;
-		top: 10px;
+		background-color: #b19dd8; 
+		left: 0px;
+		top: 0px;
 	}
 	
 	.overlayButton:hover {
-		color: #b19dd8;
 		background: rgba(0, 0, 0, .0);
 		opacity: 1.0;
 		outline: 5px solid #b19dd8;
@@ -125,6 +126,7 @@
 				player.setVolume(1);
 				player.setQuality("auto");
 			}
+			
 			players.push(player);
 		}
 	}  
@@ -139,6 +141,7 @@
 		players[0].setChannel(channels[0]);
 		players[id].setChannel(channels[id]);
 	}
+	
 	function ToggleMute (){    
 		var curVolume = players[0].getVolume();
 		if(curVolume > 0) {
