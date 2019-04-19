@@ -1,57 +1,72 @@
 <style>
-
-    	body {
-        	background-color: #0f0e11;
-    	}
+	body {
+		background-color: #0f0e11;
+	}
 	
-    	.overlayButton {
+	.overlayButton {
 		background: rgba(0, 0, 0, .0);
 		opacity: 0.0;
-    	}
+	}
+	
+	.channelName {
+		font-weight: bold;
+		position: absolute;
+		left: 10px;
+		top: 10px;
+	}
 	
 	.overlayButton:hover {
+		color: #b19dd8;
 		background: rgba(0, 0, 0, .0);
 		opacity: 1.0;
 		outline: 5px solid #b19dd8;
-    		outline-offset: -5px;
-    	}
-
+		outline-offset: -5px;
+	}
+	
 </style>
 <html>
-    	<head>
-        	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css' />
-    	</head>
-    	<body onload="Init()">
-        	<div class="uk-grid-collapse" uk-grid>
-            		<div class="uk-width-1-1" style="background-color:#4b367c;">
-                		<a><img src="images/twitch.png" onclick="Redirect()" height="50" width="50"></a>
-            		</div>
-            		<div class="uk-width-1-4">
-                		<div class="uk-grid-collapse uk-child-width-1-1" uk-grid>
-                    			<div class="uk-inline outlined">
-                        			<div id="player1"></div>
-                        			<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(1)></button>
+	<head>
+		<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css' />
+	</head>
+	<body onload="Init()">
+		<div class="uk-grid-collapse" uk-grid>
+			<div class="uk-width-1-1" style="background-color:#4b367c;">
+				<a><img src="images/twitch.png" onclick="Redirect()" height="50" width="50"></a>
+			</div>
+			<div class="uk-width-1-4">
+				<div class="uk-grid-collapse uk-child-width-1-1" uk-grid>
+					<div class="uk-inline">
+						<div id="player1"></div>
+						<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(1)>
+							<span id="player1name" class="channelName"></span>
+						</button>
 					</div>
-                    			<div class="uk-inline outlined">
-                        			<div id="player2"></div>
-                        			<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(2)></button>
-                    			</div>
-                    			<div class="uk-inline outlined">
-                       				<div id="player3"></div>        
-                        			<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(3)></button>
-                   			 </div>
-                		</div>
-            		</div>
-            		<div class="uk-width-3-4 uk-inline outlined">
-                		<div id="player0" class="uk-width-1-1"></div>
-                		<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=ToggleMute()></button>
-            		</div>
-            		<div class="uk-width-1-1 uk-margin-small-right">
+					<div class="uk-inline">
+						<div id="player2"></div>
+						<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(2)>
+							<span id="player2name" class="channelName"></span>
+						</button>
+					</div>
+					<div class="uk-inline">
+						<div id="player3"></div>        
+						<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(3)>
+							<span id="player3name" class="channelName"></span>
+						</button>
+					 </div>
+				</div>
+			</div>
+			<div class="uk-width-3-4 uk-inline">
+				<div id="player0" class="uk-width-1-1"></div>
+				<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=ToggleMute()>
+					<span id="player4name" class="channelName"></span>
+				</button>
+			</div>
+			<div class="uk-width-1-1 uk-margin-small-right">
 				<a class="uk-margin-small-top uk-float-right" onclick="ToggleFullscreen()" uk-icon="icon: expand; ratio: 1.5" uk-tooltip="Fullscreen"></a>
 				<a class="uk-margin-small-top uk-float-right uk-margin-small-right" onclick="OpenChat()" uk-icon="icon: commenting; ratio: 1.5" uk-tooltip="Open chat"></a>
 				<a class="uk-margin-small-top uk-float-right uk-margin-small-right" onclick="Clip()" uk-icon="icon: video-camera; ratio: 1.5" uk-tooltip="Clip"></a>
-            		</div>
-        	</div>
+			</div>
+		</div>
 	</body>
 </html>
 
@@ -61,125 +76,125 @@
 
 <script>
 
-    	var clientId = '';
-    	var oauth = '';
-    	var players = [];
-    	var channels = [];
-    	var layout = "video";
-    	var volume = 1;
-
-    	window.addEventListener('resize', function(event){
-        	SetPlayerSizes();
-    	});
-
-    	function Init() {
-        	GetQueryString();
-        	SetChannels();
-    	}
-
-    	function GetQueryString(){
-        	let url = new URL(location.href);
-        	let searchParams = new URLSearchParams(url.search);
-
-        	clientId = searchParams.get('clientid');
-        	oauth = searchParams.get('oauth');    
-
-        	var channelParam = searchParams.get('channels');
-        	if(channelParam != null){
-            		channels = channelParam.split(' ');
-        	}
-    	}
-
-    	function SetChannels(){
-        	for(i = 0; i < channels.length; i ++){
-            		var player =
-                		new Twitch.Player("player" + i,
-                		{
-                    			width: GetPlayerWidth(i),
-                    			height: GetPlayerHeight(i),
-                    			layout: layout,
-                    			channel: channels[i],
-                		});
+	var clientId = '';
+	var oauth = '';
+	var players = [];
+	var channels = [];
+	var layout = "video";
+	var volume = 1;
+	
+	window.addEventListener('resize', function(event){
+		SetPlayerSizes();
+	});
+	
+	function Init() {
+		GetQueryString();
+		SetChannels();
+	}
+	
+	function GetQueryString(){
+		let url = new URL(location.href);
+		let searchParams = new URLSearchParams(url.search);
+		
+		clientId = searchParams.get('clientid');
+		oauth = searchParams.get('oauth');    
+		
+		var channelParam = searchParams.get('channels');
+		if (channelParam != null){
+				channels = channelParam.split(' ');
+		}
+	}
+	
+	function SetChannels(){
+		for(i = 0; i < channels.length; i ++){
+			var player =
+				new Twitch.Player("player" + i,
+				{
+					width: GetPlayerWidth(i),
+					height: GetPlayerHeight(i),
+					layout: layout,
+					channel: channels[i],
+				});
+		
+			document.getElementById('player' + (i + 1) + 'name').innerHTML = channels[i];
+		
 			if(i > 0){
-                		player.setVolume(0);
-                		player.setQuality("360p30");
+				player.setVolume(0);
+				player.setQuality("360p30");
 			} else {
 				player.setVolume(1);
 				player.setQuality("auto");
 			}
 			players.push(player);
 		}
-    	}    
-
-    	function SwitchChannel(id){
-        	if(channels[id] == undefined){
-            		return;
-        	}
-
-        	var old = channels[0];
-        	channels[0] = channels[id];
-        	channels[id] = old;
-
-        	players[0].setChannel(channels[0]);
-        	players[id].setChannel(channels[id]);
-    	}
-
-    	function ToggleMute (){    
-        	var curVolume = players[0].getVolume();
-        	if(curVolume > 0) {
-            		volume = curVolume;
-            		players[0].setVolume(0);
-        	} else {
-            		players[0].setVolume(volume);
-        	}
-    	}
-
+	}  
+	
+	function SwitchChannel(id){
+		if(channels[id] == undefined){
+				return;
+		}
+		var old = channels[0];
+		channels[0] = channels[id];
+		channels[id] = old;
+		players[0].setChannel(channels[0]);
+		players[id].setChannel(channels[id]);
+	}
+	function ToggleMute (){    
+		var curVolume = players[0].getVolume();
+		if(curVolume > 0) {
+			volume = curVolume;
+			players[0].setVolume(0);
+		} else {
+			players[0].setVolume(volume);
+		}
+	}
+		
 	function Clip(){
 		//players[0].getPlaylist().getClip()
 	}
 	
-    	function OpenChat(){
-        	var url = 'https://www.twitch.tv/popout/' + channels[0] + '/chat?popout=';
-        	window.open(url, "", "width=400,height=700");
-    	}
+	function OpenChat(){
+		var url = 'https://www.twitch.tv/popout/' + channels[0] + '/chat?popout=';
+		window.open(url, "", "width=400,height=700");
+	}
 	
 	function ToggleFullscreen(){
 		players[0].setFullscreen(true);
 	}
-
-    	function Redirect(){
-        	var url = 'twitchSelection.html' + '?channels=' + channels.join('+');
-        	if (oauth != '' || clientId != ''){
-            		url += '&clientid=' + clientId + '&oauth=' + oauth;
-        	}
-        	window.location.href = url;
-    	}
-
-    	function SetPlayerSizes(){
-        	for(var i = 0; i < 4; i++){
-            		players[i].setWidth(GetPlayerWidth(i));
-            		players[i].setHeight(GetPlayerHeight(i));
-        	}
-    	}
-
-    	function GetPlayerWidth(index){
-        	var windowWidth = GetWindowWidth();
-        	var width = 
-            	index == 0
-                	? windowWidth - (windowWidth / 4)
-               	 	: windowWidth / 4;
-        	return width;
-    	}	
-
-    	function GetPlayerHeight(index){
-       	 	var width = GetPlayerWidth(index);
-        	return width / 16 * 9;
-    	}
-
-    	function GetWindowWidth(){
-        	return window.innerWidth
-        	|| document.documentElement.clientWidth
-        	|| document.body.clientWidth;
+	
+	function Redirect(){
+		var url = 'twitchSelection.html' + '?channels=' + channels.join('+');
+		if (oauth != '' || clientId != ''){
+			url += '&clientid=' + clientId + '&oauth=' + oauth;
+		}
+		window.location.href = url;
 	}
-
+	
+	function SetPlayerSizes(){
+		for(var i = 0; i < 4; i++){
+			players[i].setWidth(GetPlayerWidth(i));
+			players[i].setHeight(GetPlayerHeight(i));
+		}
+	}
+	
+	function GetPlayerWidth(index){
+		var windowWidth = GetWindowWidth();
+		var width = 
+			index == 0
+				? windowWidth - (windowWidth / 4)
+				: windowWidth / 4;
+		return width;
+	}	
+	
+	function GetPlayerHeight(index){
+		var width = GetPlayerWidth(index);
+		return width / 16 * 9;
+	}
+		
+	function GetWindowWidth(){
+		return window.innerWidth
+		|| document.documentElement.clientWidth
+		|| document.body.clientWidth;
+	}
+	
 </script>
