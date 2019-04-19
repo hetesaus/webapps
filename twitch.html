@@ -3,6 +3,10 @@
 		background-color: #0f0e11;
 	}
 
+	.player {
+		padding: 2px;
+	}
+	
 	.channelName {
 		padding: 5px 10px;
 		font-size: 18px;
@@ -39,19 +43,19 @@
 			<div class="uk-width-1-4">
 				<div class="uk-grid-collapse uk-child-width-1-1" uk-grid>
 					<div class="uk-inline">
-						<div id="player1"></div>
+						<div id="player1" class="player"></div>
 						<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(1)>
 							<span id="player1name" class="channelName"></span>
 						</button>
 					</div>
 					<div class="uk-inline">
-						<div id="player2"></div>
+						<div id="player2" class="player"></div>
 						<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(2)>
 							<span id="player2name" class="channelName"></span>
 						</button>
 					</div>
 					<div class="uk-inline">
-						<div id="player3"></div>        
+						<div id="player3" class="player"></div>        
 						<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(3)>
 							<span id="player3name" class="channelName"></span>
 						</button>
@@ -59,7 +63,7 @@
 				</div>
 			</div>
 			<div class="uk-width-3-4 uk-inline">
-				<div id="player0" class="uk-width-1-1"></div>
+				<div id="player0" class="player"></div>
 				<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=ToggleMute()>
 					<span id="player0name" class="channelName"></span>
 				</button>
@@ -85,6 +89,7 @@
 	var channels = [];
 	var layout = "video";
 	var volume = 1;
+	var padding = 4;
 	
 	window.addEventListener('resize', function(event){
 		SetPlayerSizes();
@@ -113,8 +118,8 @@
 			var player =
 				new Twitch.Player("player" + i,
 				{
-					width: GetPlayerWidth(i),
-					height: GetPlayerHeight(i),
+					width: GetPlayerWidth(i) - padding,
+					height: GetPlayerHeight(i) - padding,
 					layout: layout,
 					channel: channels[i],
 				});
