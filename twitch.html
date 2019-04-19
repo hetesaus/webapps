@@ -58,7 +58,7 @@
 			<div class="uk-width-3-4 uk-inline">
 				<div id="player0" class="uk-width-1-1"></div>
 				<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=ToggleMute()>
-					<span id="player4name" class="channelName"></span>
+					<span id="player0name" class="channelName"></span>
 				</button>
 			</div>
 			<div class="uk-width-1-1 uk-margin-small-right">
@@ -116,7 +116,7 @@
 					channel: channels[i],
 				});
 		
-			document.getElementById('player' + (i + 1) + 'name').innerHTML = channels[i];
+			document.getElementById('player' + i + 'name').innerHTML = channels[i];
 		
 			if(i > 0){
 				player.setVolume(0);
