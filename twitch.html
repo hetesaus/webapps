@@ -145,8 +145,12 @@
 		var old = channels[0];
 		channels[0] = channels[id];
 		channels[id] = old;
+		
 		players[0].setChannel(channels[0]);
+		document.getElementById('player0name').innerHTML = channels[0];
+		
 		players[id].setChannel(channels[id]);
+		document.getElementById('player' + i + 'name').innerHTML = channels[i];
 	}
 	
 	function ToggleMute (){    
