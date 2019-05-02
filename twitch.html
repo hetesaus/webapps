@@ -91,9 +91,9 @@
 	var oauth = '';
 	var players = [];
 	var channels = [];
-	var layout = "video";
 	var volume = 1;
 	var padding = 4;
+	var showOverlay = true;
 	
 	window.addEventListener('resize', function(event){
 		SetPlayerSizes();
@@ -113,7 +113,7 @@
 		
 		var channelParam = searchParams.get('channels');
 		if (channelParam != null){
-				channels = channelParam.split(' ');
+			channels = channelParam.split(' ');
 		}
 	}
 	
@@ -124,7 +124,7 @@
 				{
 					width: GetPlayerWidth(i) - padding,
 					height: GetPlayerHeight(i) - padding,
-					layout: layout,
+					layout: 'video',
 					channel: channels[i],
 				});
 		
