@@ -47,19 +47,19 @@
 				<div class="uk-grid-collapse uk-child-width-1-1" uk-grid>
 					<div class="uk-inline">
 						<div id="player1" class="player"></div>
-						<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(1)>
+						<button id="overlay1" class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(1)>
 							<span id="player1name" class="channelName"></span>
 						</button>
 					</div>
 					<div class="uk-inline">
 						<div id="player2" class="player"></div>
-						<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(2)>
+						<button id="overlay2" class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(2)>
 							<span id="player2name" class="channelName"></span>
 						</button>
 					</div>
 					<div class="uk-inline">
 						<div id="player3" class="player"></div>        
-						<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(3)>
+						<button id="overlay3" class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=SwitchChannel(3)>
 							<span id="player3name" class="channelName"></span>
 						</button>
 					 </div>
@@ -67,13 +67,14 @@
 			</div>
 			<div class="uk-width-3-4 uk-inline">
 				<div id="player0" class="player"></div>
-				<button class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=ToggleMute()>
+				<button id="overlay0" class="overlayButton uk-width-1-1 uk-overlay uk-position-cover" onclick=ToggleMute()>
 					<span id="player0name" class="channelName"></span>
 				</button>
 			</div>
 			<div class="uk-width-1-1 uk-margin-small-right">
 				<a class="uk-margin-small-top uk-float-right" onclick="ToggleFullscreen()" uk-icon="icon: expand; ratio: 1.5" uk-tooltip="Fullscreen"></a>
 				<a class="uk-margin-small-top uk-float-right uk-margin-small-right" onclick="OpenChat()" uk-icon="icon: commenting; ratio: 1.5" uk-tooltip="Open chat"></a>
+				<a class="uk-margin-small-top uk-float-right uk-margin-small-right" onclick="ToggleOverlay()" id="overlayIcon" uk-icon="icon: lock; ratio: 1.5" uk-tooltip="Toggle overlay"></a>
 				<a class="uk-margin-small-top uk-float-right uk-margin-small-right" onclick="Clip()" uk-icon="icon: video-camera; ratio: 1.5" uk-tooltip="Clip"></a>
 			</div>
 		</div>
@@ -177,6 +178,22 @@
 	
 	function ToggleFullscreen(){
 		players[0].setFullscreen(true);
+	}
+	
+	function ToggleOverlay(){
+		showOverlay = !showOverlay;
+			
+		document.getElementById('overlayIcon').setAttribute('uk-icon', 
+			showOverlay 
+				? 'icon: lock; ratio: 1.5' 
+				: 'icon: unlock; ratio: 1.5');	
+		
+		for(var i = 0; i < players.length; i++){
+			document.getElementById('overlay' + i).style.display = 
+				showOverlay 
+					? 'block' 
+					: 'none';
+		}
 	}
 	
 	function Redirect(){
