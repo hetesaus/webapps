@@ -71,11 +71,21 @@
 					<span id="player0name" class="channelName"></span>
 				</button>
 			</div>
-			<div class="uk-width-1-1 uk-margin-small-right">
-				<a class="uk-margin-small-top uk-float-right" onclick="ToggleFullscreen()" uk-icon="icon: expand; ratio: 1.5" uk-tooltip="Fullscreen"></a>
-				<a class="uk-margin-small-top uk-float-right uk-margin-small-right" onclick="OpenChat()" uk-icon="icon: commenting; ratio: 1.5" uk-tooltip="Open chat"></a>
-				<a class="uk-margin-small-top uk-float-right uk-margin-small-right" onclick="ToggleOverlay()" id="overlayIcon" uk-icon="icon: lock; ratio: 1.5" uk-tooltip="Toggle overlay"></a>
-				<a class="uk-margin-small-top uk-float-right uk-margin-small-right" onclick="Clip()" uk-icon="icon: video-camera; ratio: 1.5" uk-tooltip="Clip"></a>
+			<div class="uk-grid-small uk-margin-small-top uk-width-1-1" uk-grid>
+				<div class="uk-width-expand"></div>
+				<div id="controls" class="uk-width-auto uk-animation-slide-right-medium" hidden>
+					<ul class="uk-iconnav">
+						<li><a onclick="Clip()" uk-icon="video-camera" uk-tooltip="Clip"></a></li>
+						<li><a onclick="ToggleOverlay()" id="overlayIcon" uk-icon="lock" uk-tooltip="Toggle overlay"></a></li>
+						<li><a onclick="OpenChat()" uk-icon="commenting" uk-tooltip="Open chat"></a></li>
+						<li><a onclick="ToggleFullscreen()" uk-icon="expand" uk-tooltip="Fullscreen"></a></li>
+						<li></li>
+					</ul>
+					<hr class="uk-divider-vertical">
+				</div>
+				<div class="uk-width-auto">
+					<a uk-toggle="target: #controls" uk-icon="cog" uk-tooltip="Toggle controls"></a>
+				</div>
 			</div>
 		</div>
 	</body>
@@ -93,7 +103,6 @@
 	var channels = [];
 	var volume = 1;
 	var padding = 4;
-	var showOverlay = true;
 	
 	window.addEventListener('resize', function(event){
 		SetPlayerSizes();
@@ -181,12 +190,13 @@
 	}
 	
 	function ToggleOverlay(){
-		showOverlay = !showOverlay;
+		var element = document.getElementById('overlay0');
+		var showOverlay = element.style.display == 'none';
 			
 		document.getElementById('overlayIcon').setAttribute('uk-icon', 
 			showOverlay 
-				? 'icon: lock; ratio: 1.5' 
-				: 'icon: unlock; ratio: 1.5');	
+				? 'lock' 
+				: 'unlock');	
 		
 		for(var i = 0; i < players.length; i++){
 			document.getElementById('overlay' + i).style.display = 
