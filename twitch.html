@@ -73,7 +73,7 @@
 			</div>
 			<div class="uk-grid-small uk-margin-small-top uk-width-1-1" uk-grid>
 				<div class="uk-width-expand"></div>
-				<div id="controls" class="uk-width-auto uk-animation-slide-right-medium" hidden>
+				<div id="controls" class="uk-width-auto" hidden>
 					<ul class="uk-iconnav">
 						<li><a onclick="Clip()" uk-icon="video-camera" uk-tooltip="Clip"></a></li>
 						<li><a onclick="ToggleOverlay()" id="overlayIcon" uk-icon="lock" uk-tooltip="Toggle overlay"></a></li>
@@ -84,7 +84,7 @@
 					<hr class="uk-divider-vertical">
 				</div>
 				<div class="uk-width-auto">
-					<a uk-toggle="target: #controls" uk-icon="cog" uk-tooltip="Toggle controls"></a>
+					<a uk-toggle="target: #controls; animation: uk-animation-slide-right-medium" uk-icon="more" uk-tooltip="Toggle controls"></a>
 				</div>
 			</div>
 		</div>
