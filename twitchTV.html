@@ -1,0 +1,171 @@
+<style>
+	body {
+		background-color: #0f0e11;
+		overflow: hidden;
+	}
+
+	.player {
+		padding: 2px;
+		outline: 5px solid #000000;
+		outline-offset: -5px;
+	}
+	
+</style>
+<html>
+	<head>
+		<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css' />
+	</head>
+	<body onload="Init()">
+		<div class="uk-grid-collapse" uk-grid>
+			<div class="uk-width-1-1" style="background-color:#4b367c; margin-bottom: 2px;">
+				<a><img src="images/twitch.png" onclick="Redirect()" height="50" width="50"></a>
+			</div>
+			<div class="uk-width-3-4">
+				<div id="player" class="player"></div>
+				
+				<!-- <div class="uk-width-1-1"> -->
+					<!-- <progress id="progress" class="uk-progress" value="0" max="10"></progress> -->
+				<!-- </div> -->
+				
+				<div class="uk-width-1-1 uk-margin-small-top">
+					<div class="uk-grid-small" uk-grid>
+						<div class="uk-width-expand">
+							<button class="uk-button uk-button-primary uk-button-large uk-width-1-1" onclick="SwitchChannelDown()">
+								<span uk-icon="icon: arrow-left"></span>
+							</button>
+						</div>
+						<div class="uk-width-expand">
+							<button class="uk-button uk-button-primary uk-button-large uk-width-1-1" onclick="SwitchChannelUp()">
+								<span uk-icon="icon: arrow-right"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js'></script>
+<script src="https://player.twitch.tv/js/embed/v1.js"></script>
+
+<script>
+
+	var clientId = '';
+	var player;
+	var channels = [];
+    var partnered = true;
+    var limit = 100;
+	var currentProgress = 0;
+	var currentChannel = 0;
+	
+	//setInterval(SwitchChannelUp, 10000);
+	//setInterval(UpdateProgress, 1000);
+	
+	window.addEventListener('resize', function(event){
+		SetPlayerSize();
+	});
+	
+	function Init() {
+		GetQueryString();
+		GetChannels();
+		SetPlayer();
+	}
+	
+	function GetQueryString(){
+		let url = new URL(location.href);
+		let searchParams = new URLSearchParams(url.search);
+		clientId = searchParams.get('clientid');
+	}
+	
+	function SetPlayer(){
+		player =
+			new Twitch.Player("player",
+			{
+				width: GetPlayerWidth(),
+				height: GetPlayerHeight(),
+				layout: 'video',
+				channel: channels[currentChannel],
+			});
+			
+		player.setVolume(1);
+		player.setQuality("auto");			
+	}  
+	
+	function GetChannels(){
+        var url = 'https://api.twitch.tv/kraken/beta/streams/random?client_id=' + clientId + '&language=en&limit=' + limit
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.onload = function () {
+            var data = JSON.parse(this.response);    
+            if (request.status >= 200 && request.status < 400) {
+                for(var i = 0; i < data.streams.length; i++){
+                    var channel = data.streams[i].channel;
+                    if(partnered && channel.partner == false){
+                        continue;
+                    }
+                    channels.push(channel.name);
+                }
+            }
+			SwitchChannel();
+        }
+        request.send();
+	}
+	
+	function SwitchChannelUp(){
+		if(currentChannel == channels.length-1){
+			GetChannels();
+			currentChannel ++;
+		}
+	
+		if(currentChannel < channels.length-1){
+			currentChannel ++;
+			SwitchChannel();
+		}
+	}
+	
+	function SwitchChannelDown(){
+		if(currentChannel > 0){
+			currentChannel --;
+			SwitchChannel();
+		}
+	}
+	
+	function SwitchChannel(){
+		player.setChannel(channels[currentChannel]);
+	}
+	
+	function SetPlayerSize(){
+		player.setWidth(GetPlayerWidth());
+		player.setHeight(GetPlayerHeight());
+	}
+	
+	function UpdateProgress(){
+		var progress = document.getElementById('progress');
+	
+		if(currentProgress == 10){
+			currentProgress = 0;
+		}
+		currentProgress ++;		
+		
+		progress.setAttribute('value', currentProgress);
+	}
+	
+	function GetPlayerWidth(){
+		var windowWidth = GetWindowWidth();
+		return windowWidth - (windowWidth / 4);
+	}	
+	
+	function GetPlayerHeight(index){
+		var width = GetPlayerWidth();
+		return width / 16 * 9;
+	}
+		
+	function GetWindowWidth(){
+		return window.innerWidth
+		|| document.documentElement.clientWidth
+		|| document.body.clientWidth;
+	}
+	
+</script>
