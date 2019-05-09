@@ -3,7 +3,6 @@
 		background-color: #0f0e11;
 		overflow: hidden;
 	}
-
 	.player {
 		padding: 2px;
 		outline: 5px solid #000000;
@@ -22,18 +21,19 @@
 			</div>
 			<div class="uk-width-3-4">
 				<div id="player" class="player"></div>
-				
-				<input type="checkbox" onclick='CheckboxChanged(this)'>
-				
-				<div class="uk-width-1-1">
-					<progress id="progress" class="uk-progress" value="0" max="10"></progress>
-				</div>
-				
 				<div class="uk-width-1-1 uk-margin-small-top">
+					<progress id="timer" class="uk-progress" value="0" max="10"></progress>
+				</div>
+				<div class="uk-width-1-1">
 					<div class="uk-grid-small" uk-grid>
 						<div class="uk-width-expand">
 							<button class="uk-button uk-button-primary uk-button-large uk-width-1-1" onclick="SwitchChannelDown()">
 								<span uk-icon="icon: arrow-left; ratio: 1.5;"></span>
+							</button>
+						</div>
+						<div class="uk-width-expand">
+							<button id="autoplayButton" class="uk-button uk-button-default uk-button-large uk-width-1-1" onclick="SwitchAutoplay()" uk-toggle="target: #autoplayButton; cls: uk-button-primary" >
+								<span uk-icon="icon: refresh; ratio: 1.5;"></span>
 							</button>
 						</div>
 						<div class="uk-width-expand">
@@ -53,17 +53,16 @@
 <script src="https://player.twitch.tv/js/embed/v1.js"></script>
 
 <script>
-
 	var clientId = '';
 	var player;
 	var channels = [];
-    	var partnered = true;
-    	var limit = 100;
-	var currentProgress = 0;
+	var partnered = true;
+	var limit = 100;
 	var currentChannel = 0;
+	var timer = 0;
 	var autoplay = false;
 	
-	setInterval(UpdateProgress, 1000);
+	setInterval(UpdateTimer, 1000);
 	
 	window.addEventListener('resize', function(event){
 		SetPlayerSize();
@@ -96,23 +95,23 @@
 	}  
 	
 	function GetChannels(){
-        	var url = 'https://api.twitch.tv/kraken/beta/streams/random?client_id=' + clientId + '&language=en&limit=' + limit
-        	var request = new XMLHttpRequest();
-        	request.open('GET', url, true);
-        	request.onload = function () {
-    			var data = JSON.parse(this.response);    
+		var url = 'https://api.twitch.tv/kraken/beta/streams/random?client_id=' + clientId + '&language=en&limit=' + limit
+		var request = new XMLHttpRequest();
+		request.open('GET', url, true);
+		request.onload = function () {
+			var data = JSON.parse(this.response);    
 			if (request.status >= 200 && request.status < 400) {
-                		for(var i = 0; i < data.streams.length; i++){
-                			var channel = data.streams[i].channel;
-                    			if(partnered && channel.partner == false){
-                        			continue;
-                    			}
-                    			channels.push(channel.name);
-                		}
-            		}
+				for(var i = 0; i < data.streams.length; i++){
+					var channel = data.streams[i].channel;
+					if(partnered && channel.partner == false){
+						continue;
+					}
+					channels.push(channel.name);
+				}
+			}
 			SwitchChannel();
-        	}
-        	request.send();
+		}
+		request.send();
 	}
 	
 	function SwitchChannelUp(){
@@ -120,13 +119,10 @@
 			GetChannels();
 			currentChannel ++;
 		}
-	
 		if(currentChannel < channels.length-1){
 			currentChannel ++;
 			SwitchChannel();
 		}
-		
-		ResetProgress();
 	}
 	
 	function SwitchChannelDown(){
@@ -138,42 +134,40 @@
 	
 	function SwitchChannel(){
 		player.setChannel(channels[currentChannel]);
+		ResetTimer();
+	}
+	
+	function UpdateTimer(){
+		if(autoplay){
+			if(timer < 10){
+				timer ++;	
+				SetTimerElement();
+			} else {
+				SwitchChannelUp();
+			}
+		}
+	}
+	
+	function SetTimerElement(){	
+		var element = document.getElementById('timer');
+		element.setAttribute('value', timer);
+	}
+	
+	function ResetTimer(){
+		timer = 0;	
+		SetTimerElement();
+	}
+	
+	function SwitchAutoplay(){
+		autoplay = !autoplay;
+		if(autoplay == false){
+			ResetTimer();
+		}
 	}
 	
 	function SetPlayerSize(){
 		player.setWidth(GetPlayerWidth());
 		player.setHeight(GetPlayerHeight());
-	}
-	
-	function UpdateProgress(){
-		if(autoplay == false){
-			return;	
-		}
-		
-		if(currentProgress == 10){
-			currentProgress = 0;
-			SwitchChannelUp();
-		}
-		currentProgress ++;	
-		SetProgress();
-	}
-	
-	function SetProgress(){	
-		var progress = document.getElementById('progress');
-		progress.setAttribute('value', currentProgress);
-	}
-	
-	function CheckboxChanged(cb){
-		autoplay = cb.checked;
-				
-		if(autoplay == false){
-			ResetProgress();
-		}
-	}
-	
-	function ResetProgress(){
-		currentProgress = 0;	
-		SetProgress();
 	}
 	
 	function GetPlayerWidth(){
