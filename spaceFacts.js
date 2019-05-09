@@ -297,3 +297,8 @@ var facts =
 	"For a satellite to fly off into the space, its momentum should be greater than the pull of gravity of the earth.",
 	"The future of the Universe may depend on how much dark matter there is. If there is too much, its gravity will eventually stop the Universe’s expansion – and make it shrink again.",
 ];
+
+//https://www.factretriever.com/outer-space-facts
+//https://www.factslides.com/s-Space
+//http://www.makemegenius.com/factlist.php?q=16
+//https://www.ranker.com/list/crazy-black-hole-facts/cynthia-griffith
