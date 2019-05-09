@@ -55,13 +55,13 @@
 	var clientId = '';
 	var player;
 	var channels = [];
-    var partnered = true;
-    var limit = 100;
+    	var partnered = true;
+    	var limit = 100;
 	var currentProgress = 0;
 	var currentChannel = 0;
+	var autoplay = false;
 	
-	//setInterval(SwitchChannelUp, 10000);
-	//setInterval(UpdateProgress, 1000);
+	setInterval(UpdateProgress, 1000);
 	
 	window.addEventListener('resize', function(event){
 		SetPlayerSize();
@@ -142,13 +142,17 @@
 	}
 	
 	function UpdateProgress(){
-		var progress = document.getElementById('progress');
-	
+		if(autoplay == false){
+			return;	
+		}
+		
 		if(currentProgress == 10){
+			SwitchChannel();
 			currentProgress = 0;
 		}
-		currentProgress ++;		
+		currentProgress ++;	
 		
+		var progress = document.getElementById('progress');
 		progress.setAttribute('value', currentProgress);
 	}
 	
