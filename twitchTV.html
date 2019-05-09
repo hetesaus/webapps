@@ -24,7 +24,7 @@
 				<div class="uk-width-1-1 uk-margin-small-top">
 					<progress id="timer" class="uk-progress uk-margin-remove" value="0" max="10"></progress>
 				</div>
-				<div class="uk-width-1-1">
+				<div class="uk-width-1-1 uk-margin-top-small">
 					<div class="uk-grid-small" uk-grid>
 						<div class="uk-width-expand">
 							<button class="uk-button uk-button-primary uk-button-large uk-width-1-1" onclick="SwitchChannelDown()">
@@ -59,6 +59,7 @@
 	var partnered = true;
 	var limit = 100;
 	var currentChannel = 0;
+	var interval = 15;
 	var timer = 0;
 	var autoplay = false;
 	
@@ -139,7 +140,7 @@
 	
 	function UpdateTimer(){
 		if(autoplay){
-			if(timer < 10){
+			if(timer < interval){
 				timer ++;	
 				SetTimerElement();
 			} else {
