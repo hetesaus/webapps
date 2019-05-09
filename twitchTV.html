@@ -25,9 +25,9 @@
 				
 				<input type="checkbox" onclick='CheckboxChanged(this)'>
 				
-				<!-- <div class="uk-width-1-1"> -->
-					<!-- <progress id="progress" class="uk-progress" value="0" max="10"></progress> -->
-				<!-- </div> -->
+				<div class="uk-width-1-1">
+					<progress id="progress" class="uk-progress" value="0" max="10"></progress>
+				</div>
 				
 				<div class="uk-width-1-1 uk-margin-small-top">
 					<div class="uk-grid-small" uk-grid>
@@ -153,7 +153,10 @@
 			currentProgress = 0;
 		}
 		currentProgress ++;	
-		
+		SetProgress();
+	}
+	
+	function SetProgress(){	
 		var progress = document.getElementById('progress');
 		progress.setAttribute('value', currentProgress);
 	}
@@ -167,7 +170,7 @@
 	
 	function ResetProgress(){
 		currentProgress = 0;	
-		progress.setAttribute('value', currentProgress);
+		SetProgress();
 	}
 	
 	function GetPlayerWidth(){
