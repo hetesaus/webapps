@@ -33,7 +33,6 @@
 	
     	function Init(){
 		list = document.getElementById('curCountdownList');
-	
         	setInterval(UpdateList, 1000);
         	SetExampleDate();
 		LoadCountdowns();
@@ -60,8 +59,13 @@
     	}
 
 	function LoadCountdowns(){
-		for(var i = 0; i < countdownList.length; i++){
-			AddToCountDownList(countdownList[i].name, countdownList[i].date);
+		var localCountdowns = localStorage['countdowns'];
+		if (localCountdowns){
+			countdowns = JSON.parse(localCountdowns);
+		} 
+		
+		for(var i = 0; i < countdowns.length; i++){
+			AddToCountDownList(countdowns[i].name, countdowns[i].date);
 		}
 	}
 	
@@ -187,6 +191,9 @@
             		var dateA = new Date(a.date), dateB = new Date(b.date);
             		return dateA - dateB;
         	});
+		
+		localStorage['countdowns'] = JSON.stringify(countdowns);
+		
 		BuildList();
 	}
 	
