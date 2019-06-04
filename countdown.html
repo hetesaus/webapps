@@ -99,7 +99,9 @@
 				formattedDate = 'starting';
 				alert(countdowns[i].name + ' starting');
 				countdowns.splice(i, 1);
+				SaveList();
 				BuildList();
+				return;
 			}
 
 			document.getElementById('countdownDate' + i).innerHTML = formattedDate;
