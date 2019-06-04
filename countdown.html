@@ -1,8 +1,8 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
-    </head>
-    <body onload="Init()">
+    	<head>
+        	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    	</head>
+    	<body onload="Init()">
 		<div class="uk-inline uk-width-4-5 uk-position-large uk-position-top-center uk-vertical-align">
 			<h3>Countdowns</h3>
 			<div uk-grid class="uk-grid-collapse">
@@ -19,7 +19,7 @@
 			<hr>
 			<ul id="curCountdownList" class="uk-list uk-padding-remove"></ul>
 		</div>
-    </body>
+	</body>
 </html>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
@@ -59,10 +59,10 @@
     	}
 
 	function LoadCountdowns(){
-		var localCountdowns = localStorage['countdowns'];
-		if (localCountdowns){
-			countdowns = JSON.parse(localCountdowns);
-		} 
+		//var localCountdowns = localStorage['countdowns'];
+		//if (localCountdowns){
+		//	countdowns = JSON.parse(localCountdowns);
+		//} 
 		
 		for(var i = 0; i < countdowns.length; i++){
 			AddToCountDownList(countdowns[i].name, countdowns[i].date);
@@ -192,7 +192,7 @@
             		return dateA - dateB;
         	});
 		
-		localStorage['countdowns'] = JSON.stringify(countdowns);
+		//localStorage['countdowns'] = JSON.stringify(countdowns);
 		
 		BuildList();
 	}
