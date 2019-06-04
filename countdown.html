@@ -66,7 +66,7 @@
 		} 
 		
 		for(var i = 0; i < list.length; i++){
-			AddToCountDownList(list[i].name, list[i].date);
+			AddToList(list[i].name, list[i].date);
 		}
 	}
 	
@@ -186,11 +186,11 @@
 		document.getElementById('dateInput').value = '';
         	document.getElementById('nameInput').value = '';
 		
-		AddToCountDownList(nameInput, dateInput);
+		AddToList(nameInput, dateInput);
 		SetExampleDate();
    	}
 
-	function AddToCountDownList(nameInput, dateInput){
+	function AddToList(nameInput, dateInput){
 		countdowns.push({ date: new Date(dateInput), name: nameInput, startDate: GetDate() });
 		countdowns.sort(function(a,b){
             		var dateA = new Date(a.date), dateB = new Date(b.date);
