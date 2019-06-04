@@ -108,6 +108,10 @@
 		}
     	}
 	
+	function SaveList(){
+		localStorage['countdowns'] = JSON.stringify(countdowns);	
+	}
+	
 	function BuildList(){
 		while(list.getElementsByTagName('li').length > 0){
 			list.removeChild(list.childNodes[0]);
@@ -193,9 +197,7 @@
             		return dateA - dateB;
         	});
 		
-		localStorage['countdowns'] = '';
-		localStorage['countdowns'] = JSON.stringify(countdowns);
-		
+		SaveList();
 		BuildList();
 	}
 	
@@ -210,6 +212,7 @@
 				}
 			}		
 			countdowns.splice(index, 1);
+			SaveList();
 			BuildList();
 		}
     }
