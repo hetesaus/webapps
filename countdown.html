@@ -58,14 +58,15 @@
         	document.getElementById('dateInput').value = formatDate;
     	}
 
-	function LoadCountdowns(){	
-		//var localCountdowns = localStorage['countdowns'];
-		//if (localCountdowns){
-		//	countdowns = JSON.parse(localCountdowns);
-		//} 
+	function LoadCountdowns(){
+		var list = [];
+		var storage = localStorage['countdowns'];
+		if (storage){
+			list = JSON.parse(storage);
+		} 
 		
-		for(var i = 0; i < countdownList.length; i++){
-			AddToCountDownList(countdownList[i].name, countdownList[i].date);
+		for(var i = 0; i < list.length; i++){
+			AddToCountDownList(list[i].name, list[i].date);
 		}
 	}
 	
@@ -192,7 +193,8 @@
             		return dateA - dateB;
         	});
 		
-		//localStorage['countdowns'] = JSON.stringify(countdowns);
+		localStorage['countdowns'] = '';
+		localStorage['countdowns'] = JSON.stringify(countdowns);
 		
 		BuildList();
 	}
