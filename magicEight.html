@@ -1,14 +1,37 @@
 <html>
 	<body onload="Init()">
-		<span id="fact"></span>
+		<span id="answer"></span>
   	</body>
 </html>
 
-<script src="spaceFacts.js"></script>
 <script>
+	var answers = 
+	[
+		"It is certain",
+		"Reply hazy, try again",
+		"It is decidedly so",
+		"Ask again later",
+		"Without a doubt",
+		"Better not tell you now",
+		"Yes – definitely",
+		"Cannot predict now",
+		"You may rely on it",
+		"Concentrate and ask again",
+		"As I see it, yes",
+		"Don't count on it",
+		"Most likely",
+		"My reply is no",
+		"Outlook good",
+		"My sources say no",
+		"Yes",
+		"Outlook not so good",
+		"Signs point to yes",	
+		"Very doubtful"
+	];
+	
 	function Init(){
-		var fact = facts[Math.floor(Math.random() * facts.length)];
-		document.getElementById('fact').innerHTML = fact;
+		var answer = answers[Math.floor(Math.random() * answers.length)];
+		document.getElementById('answer').innerHTML = answer;
 	}
 	
 </script>
