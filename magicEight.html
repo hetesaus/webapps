@@ -1,0 +1,14 @@
+<html>
+	<body onload="Init()">
+		<span id="fact"></span>
+  	</body>
+</html>
+
+<script src="spaceFacts.js"></script>
+<script>
+	function Init(){
+		var fact = facts[Math.floor(Math.random() * facts.length)];
+		document.getElementById('fact').innerHTML = fact;
+	}
+	
+</script>
