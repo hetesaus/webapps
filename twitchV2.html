@@ -54,7 +54,6 @@
 						<div class="uk-width-1-1 uk-padding-small">					
 							<div class="uk-margin">
 								<div class="uk-search uk-search-default uk-width-1-1">
-									<span uk-search-icon></span>
 									<input v-model="input" class="uk-search-input uk-form-large" type="search" placeholder="Enter channel name" v-on:keyup.enter="addChannel(input)">
 								</div>
 							</div>
@@ -74,7 +73,7 @@
 								<ul class="uk-grid-small uk-child-width-expand uk-text-center" uk-sortable="handle: .uk-sortable-handle" uk-grid>
 									<li v-for="(channel, index) in channels" :key="index">
 										<button class="uk-button uk-button-primary uk-button-large uk-width-1-1 uk-text-truncate" @click="removeChannel(index)">
-											<span class="uk-sortable-handle" uk-icon="icon: table"></span>
+											<span class="uk-sortable-handle" :uk-icon="'table'"></span>
 											{{ channel }}
 										</button>
 									</li>
@@ -113,7 +112,7 @@
 								<div class="uk-width-expand"></div>
 								<div>
 									<ul class="uk-iconnav">
-										<li><a @click="openChat()" uk-icon="commenting" uk-tooltip="Open chat"></a></li>
+										<li><a @click="openChat()" :uk-icon="'commenting'" uk-tooltip="Open chat"></a></li>
 									</ul>
 								</div>
 							</div>						
