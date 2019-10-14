@@ -1,0 +1,122 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    </head>
+	<body>
+		<div id="app">
+		
+			<!-- OVERLAY -->
+			<div class="uk-height-small overlay">
+				<div class="uk-padding-small uk-padding-remove-vertical">
+					<div class="uk-grid uk-grid-small" uk-grid>
+						<div class="uk-grid uk-grid-collapse uk-width-expand" uk-grid>
+							<div class="uk-width-expand uk-text-left">
+								<div class="uk-card uk-card-default uk-card-small uk-card-body">
+									{{ p1Name }} 
+								</div>
+							</div>
+							<div class="uk-width-auto uk-text-center">
+								<div class="uk-card uk-card-default uk-card-small uk-card-body">
+									{{ p1Score }} 
+								</div>
+							</div>	
+						</div>
+						<div class="uk-width-medium uk-text-center">
+							<div class="uk-card uk-card-default uk-card-small uk-card-body">
+								{{ phase }} 
+							</div>
+						</div>	
+						<div class="uk-grid uk-grid-collapse uk-width-expand" uk-grid>
+							<div class="uk-width-auto uk-text-center">
+								<div class="uk-card uk-card-default uk-card-small uk-card-body">
+									{{ p2Score }} 
+								</div>
+							</div>	
+							<div class="uk-width-expand uk-text-right">
+								<div class="uk-card uk-card-default uk-card-small uk-card-body">
+									{{ p2Name }} 
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>			
+			</div>
+			
+			<!-- CONTROLS -->
+			<div class="uk-padding-small">
+				<div class="uk-margin">
+					<div class="uk-grid uk-grid-small" uk-grid>
+						<div class="uk-grid uk-grid-collapse uk-width-expand" uk-grid>
+							<div class="uk-width-expand">
+								<input class="uk-input" v-model="p1Name" placeholder="player 1">
+							</div>
+							<div class="uk-width-auto">
+								<input type="number" min="0" class="uk-input uk-form-width-xsmall" v-model="p1Score" placeholder="0">
+							</div>
+						</div>
+						<div class="uk-width-medium">			
+							<select v-model="phase" class="uk-select">
+								<option>Pools</option>
+								<option>Grand Finals</option>
+							</select>
+						</div>
+						<div class="uk-grid uk-grid-collapse uk-width-expand" uk-grid>
+							<div class="uk-width-auto">
+								<input type="number" min="0" class="uk-input uk-form-width-xsmall" v-model="p2Score" placeholder="0">
+							</div>
+							<div class="uk-width-expand">
+								<input class="uk-input" v-model="p2Name" placeholder="player 2">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="uk-margin">
+					<div class="uk-grid uk-grid-small uk-child-width-expand" uk-grid>
+						<div>
+							<button class="uk-button uk-button-small uk-width-1-1" @click="updateOverlay()">
+								Update
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </body>
+</html>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+
+<script>
+
+	new Vue({
+		el: '#app',
+		data: {
+			phase: 'Pools',
+			
+			p1Name: 'player 1',
+			p1Score: 0,
+			p1Flag: '',
+			
+			p2Name: 'player 2',
+			p2Score: 0,
+			p2Flag: '',
+		},
+		
+		methods: {
+			updateOverlay(){
+				alert('update');
+			}
+		}
+	})
+
+</script>
+
+<style>
+
+	.overlay {
+		background-color: green;
+	}
+
+</style>
