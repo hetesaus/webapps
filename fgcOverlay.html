@@ -6,8 +6,8 @@
 		<div id="app">
 		
 			<!-- OVERLAY -->
-			<div class="uk-height-small overlay">
-				<div id="toggle-overlay-animation" class="uk-padding-small uk-padding-remove-vertical">
+			<div class="uk-height-small overlay" style="z-index: 980;" uk-sticky="bottom: #offset">
+				<div id="toggle-overlay-animation" class="uk-padding-large uk-padding-remove-vertical">
 					<div class="uk-grid uk-grid-small" uk-grid>
 						<div class="uk-grid uk-grid-collapse uk-width-expand" uk-grid>
 							<div class="uk-width-expand">
@@ -53,29 +53,49 @@
 			</div>
 			
 			<!-- CONTROLS -->
-			<div class="uk-padding-small">	
+			<div class="uk-padding-small">		
 				<div class="uk-margin">
 					<div class="uk-grid uk-grid-small" uk-grid>
 						<div class="uk-grid uk-grid-collapse uk-width-expand" uk-grid>
 							<div class="uk-width-expand">
-								<input class="uk-input" v-model="p1Name" placeholder="player 1" :disabled="visible">
+								<input 
+									class="uk-input" 
+									placeholder="P1" 
+									v-model="p1Name"
+									:disabled="visible">
 							</div>
 							<div class="uk-width-auto">
-								<input type="number" min="0" class="uk-input uk-form-width-xsmall" v-model="p1Score" placeholder="0" :disabled="visible">
+								<input 
+									type="number"
+									min="0" 
+									placeholder="0"
+									class="uk-input uk-form-width-xsmall" 
+									v-model="p1Score">
 							</div>
 						</div>
 						<div class="uk-width-medium">			
 							<select v-model="phase" class="uk-select uk-width-expand" :disabled="visible">
-								<option>Pools</option>
+								<option v-for="(phase, index) in phases" :key="index">
+									{{ phase }}
+								</option>
 								<option>Grand Finals</option>
 							</select>
 						</div>
 						<div class="uk-grid uk-grid-collapse uk-width-expand" uk-grid>
 							<div class="uk-width-auto">
-								<input type="number" min="0" class="uk-input uk-form-width-xsmall" v-model="p2Score" placeholder="0" :disabled="visible">
+								<input 
+									type="number" 
+									min="0" 
+									placeholder="0"
+									class="uk-input uk-form-width-xsmall"
+									v-model="p2Score">
 							</div>
 							<div class="uk-width-expand">
-								<input class="uk-input" v-model="p2Name" placeholder="player 2" :disabled="visible">
+								<input 
+									class="uk-input" 
+									placeholder="P2" 
+									v-model="p2Name" 
+									:disabled="visible">
 							</div>
 						</div>
 					</div>
@@ -84,7 +104,16 @@
 					<div class="uk-grid uk-grid-small uk-child-width-expand" uk-grid>
 						<div>
 							<button 
-								class="uk-button uk-button-small uk-width-1-1"
+								class="uk-button uk-button-default uk-width-1-1"
+								type="button" 
+								@click="reset()"
+								:disabled="visible">
+								Reset
+							</button>
+						</div>
+						<div>
+							<button 
+								class="uk-button uk-button-default uk-width-1-1"
 								href="#toggle-overlay-animation" 
 								type="button" 
 								uk-toggle="target: #toggle-overlay-animation; animation: uk-animation-slide-top"
@@ -92,6 +121,20 @@
 								Toggle overlay
 							</button>
 						</div>
+					</div>
+				</div>
+				
+				<div class="uk-margin">
+					<span class="uk-text-meta">
+						FGC overlay used for streaming competitive matches. Cant edit player info when overlay is visible, click the button to hide the overlay and to edit player info. Can only reset player info's when overlay isn't visible.
+					</span>
+				</div>
+				
+				<div class="uk-margin">
+					<div class="uk-flex uk-flex-center">
+						<span class="uk-text-meta">
+							HETESAUS
+						</span>
 					</div>
 				</div>
 			</div>
@@ -109,14 +152,21 @@
 		el: '#app',
 		data: {
 			visible: true,
-			phase: 'Pools',
-			ftX: 0,
 			
-			p1Name: 'player 1',
+			phases: [ 
+				'Pools',
+				'Semi Finals',
+				'Winners Final',
+				'Losers Final',
+				'Grand Finals'
+			],
+			phase: 'Pools',
+			
+			p1Name: '',
 			p1Score: 0,
 			p1Flag: '',
 			
-			p2Name: 'player 2',
+			p2Name: '',
 			p2Score: 0,
 			p2Flag: '',
 		},
@@ -124,6 +174,13 @@
 		methods: {		
 			toggleVisible(){
 				this.visible = !this.visible;
+			},
+			
+			reset(){
+				this.p1Name = '';
+				this.p2Name = '';
+				this.p1Score = 0;
+				this.p2Score = 0;
 			}
 		}
 	})
