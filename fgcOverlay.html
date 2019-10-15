@@ -11,40 +11,40 @@
 					<div class="uk-grid uk-grid-small" uk-grid>
 						<div class="uk-grid uk-grid-collapse uk-width-expand" uk-grid>
 							<div class="uk-width-expand">
-								<div class="uk-card uk-card-default uk-card-small uk-card-body">
-									<span class="uk-text-left">
+								<div class="uk-card uk-card-default uk-card-small uk-card-body uk-text-left">
+									<span>
 										{{ p1Name }} 
 									</span>
 								</div>
 							</div>
-							<div class="uk-width-auto uk-text-">
+							<div class="uk-width-auto">
 								<div class="uk-card uk-card-default uk-card-small uk-card-body">
-									<span class="uk-text-center">
+									<div class="uk-text-center">
 										{{ p1Score }} 
-									</span>
+									</div>
 								</div>
 							</div>	
 						</div>
 						<div class="uk-width-medium">
 							<div class="uk-card uk-card-default uk-card-small uk-card-body">
-								<span class="uk-text-center">
+								<div class="uk-text-center">
 									{{ phase }} 
-								</span>
+								</div>
 							</div>
 						</div>	
 						<div class="uk-grid uk-grid-collapse uk-width-expand" uk-grid>
 							<div class="uk-width-auto">
 								<div class="uk-card uk-card-default uk-card-small uk-card-body">
-									<span class="uk-text-center">
+									<div class="uk-text-center">
 										{{ p2Score }} 
-									</span>
+									</div>
 								</div>
 							</div>	
 							<div class="uk-width-expand">
 								<div class="uk-card uk-card-default uk-card-small uk-card-body">
-									<span class="uk-text-right">
+									<div class="uk-text-right">
 										{{ p2Name }} 
-									</span>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -53,29 +53,29 @@
 			</div>
 			
 			<!-- CONTROLS -->
-			<div class="uk-padding-small">
+			<div class="uk-padding-small">	
 				<div class="uk-margin">
 					<div class="uk-grid uk-grid-small" uk-grid>
 						<div class="uk-grid uk-grid-collapse uk-width-expand" uk-grid>
 							<div class="uk-width-expand">
-								<input class="uk-input" v-model="p1Name" placeholder="player 1">
+								<input class="uk-input" v-model="p1Name" placeholder="player 1" :disabled="visible">
 							</div>
 							<div class="uk-width-auto">
-								<input type="number" min="0" class="uk-input uk-form-width-xsmall" v-model="p1Score" placeholder="0">
+								<input type="number" min="0" class="uk-input uk-form-width-xsmall" v-model="p1Score" placeholder="0" :disabled="visible">
 							</div>
 						</div>
 						<div class="uk-width-medium">			
-							<select v-model="phase" class="uk-select">
+							<select v-model="phase" class="uk-select uk-width-expand" :disabled="visible">
 								<option>Pools</option>
 								<option>Grand Finals</option>
 							</select>
 						</div>
 						<div class="uk-grid uk-grid-collapse uk-width-expand" uk-grid>
 							<div class="uk-width-auto">
-								<input type="number" min="0" class="uk-input uk-form-width-xsmall" v-model="p2Score" placeholder="0">
+								<input type="number" min="0" class="uk-input uk-form-width-xsmall" v-model="p2Score" placeholder="0" :disabled="visible">
 							</div>
 							<div class="uk-width-expand">
-								<input class="uk-input" v-model="p2Name" placeholder="player 2">
+								<input class="uk-input" v-model="p2Name" placeholder="player 2" :disabled="visible">
 							</div>
 						</div>
 					</div>
@@ -84,17 +84,11 @@
 					<div class="uk-grid uk-grid-small uk-child-width-expand" uk-grid>
 						<div>
 							<button 
-								class="uk-button uk-button-small uk-width-1-1" 
-								@click="updateOverlay()">
-								Update
-							</button>
-						</div>
-						<div>
-							<button 
 								class="uk-button uk-button-small uk-width-1-1"
 								href="#toggle-overlay-animation" 
 								type="button" 
-								uk-toggle="target: #toggle-animation; animation: uk-animation-slide-top">
+								uk-toggle="target: #toggle-overlay-animation; animation: uk-animation-slide-top"
+								@click="toggleVisible()">
 								Toggle overlay
 							</button>
 						</div>
@@ -114,7 +108,9 @@
 	new Vue({
 		el: '#app',
 		data: {
+			visible: true,
 			phase: 'Pools',
+			ftX: 0,
 			
 			p1Name: 'player 1',
 			p1Score: 0,
@@ -125,9 +121,9 @@
 			p2Flag: '',
 		},
 		
-		methods: {
-			updateOverlay(){
-				alert('update');
+		methods: {		
+			toggleVisible(){
+				this.visible = !this.visible;
 			}
 		}
 	})
