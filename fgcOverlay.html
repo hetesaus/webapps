@@ -7,7 +7,7 @@
 		
 			<!-- OVERLAY -->
 			<div class="uk-height-small overlay">
-				<div class="uk-padding-small uk-padding-remove-vertical">
+				<div id="toggle-animation" class="uk-padding-small uk-padding-remove-vertical">
 					<div class="uk-grid uk-grid-small" uk-grid>
 						<div class="uk-grid uk-grid-collapse uk-width-expand" uk-grid>
 							<div class="uk-width-expand uk-text-left">
@@ -75,6 +75,15 @@
 						<div>
 							<button class="uk-button uk-button-small uk-width-1-1" @click="updateOverlay()">
 								Update
+							</button>
+						</div>
+						<div>
+							<button 
+								class="uk-button uk-button-small uk-width-1-1"
+								href="#toggle-animation" 
+								type="button" 
+								uk-toggle="target: #toggle-animation; animation: uk-animation-slide-top">
+								Toggle overlay
 							</button>
 						</div>
 					</div>
