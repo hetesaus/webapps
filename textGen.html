@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    </head>
+	<body>
+	
+		<div id="app">
+			<div class="uk-padding-small">
+		
+				<h4 class="uk-margin-remove">Text generator</h4>
+				<span class="uk-text-meta">Used for creating random texts by a format per line. I.E. CSV</span>
+		
+				<div class="uk-margin">
+					<div class="uk-grid uk-grid-small uk-flex uk-flex-middle" uk-grid>
+						<div>
+							<input class="uk-input" v-model="lineAmount" type="number" min="1" uk-tooltip="How many lines to generate?">
+						</div>
+						<div>
+							<label uk-tooltip="Add new line after each copy">
+								<input class="uk-checkbox" v-model="includeNewLine" type="checkbox">
+								New line
+							</label>
+						</div>
+				</div>
+			
+				<div class="uk-margin">
+					<input class="uk-input" v-model="lineFormat" type="text" placeholder="format">
+					<span class="uk-text-meta">adding {random} in format will add a random number between 0-{{ randomLimit }}</span>
+				</div>
+				
+				<div class="uk-margin">
+					<button class="uk-button uk-button-primary uk-button-small" @click="createOutput()">
+						Generate
+					</button>
+				</div>
+				
+				<div class="uk-margin">
+					<textarea class="uk-textarea" v-model="output" rows="10" placeholder="output"></textarea>
+				</div>
+				
+			</div>
+		</div>
+    </body>
+</html>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+
+<script>
+
+	new Vue({
+		el: '#app',
+		data: {
+			lineAmount: 1,
+			lineFormat: '',
+			includeNewLine: true,
+			output: '',
+			randomLimit: 99999
+		},
+		
+		methods: {		
+			createOutput(){
+				this.output = '';
+				var text = '';
+
+				for (let i = 0; i < this.lineAmount; i++){
+					var randomId = Math.floor(Math.random() * this.randomLimit)
+					var line = this.replaceAll(this.lineFormat, '{random}', randomId);
+					
+					text += line;
+					
+					if (this.includeNewLine && i < this.lineAmount -1){
+						text += '\n';
+					}
+				}
+				this.output = text;
+			},
+			
+			replaceAll(text, id, replace){
+				return text.replace(new RegExp(id, 'g'), replace);
+			}
+		}
+	})
+
+</script>
