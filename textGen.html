@@ -38,7 +38,7 @@
 				</div>
 				
 				<div class="uk-margin">
-					<textarea id="output" class="uk-textarea" v-model="output" rows="10" placeholder="output"></textarea>
+					<textarea ref="output" class="uk-textarea" v-model="output" rows="10" placeholder="output"></textarea>
 				</div>
 				
 			</div>
@@ -52,11 +52,6 @@
 
 <script>
 
-	document.addEventListener('copy', function(e) {
-	  e.clipboardData.setData('text/plain', document.getElementById('output').value);
-	  e.preventDefault();
-	});
-
 	new Vue({
 		el: '#app',
 		data: {
@@ -69,6 +64,7 @@
 		
 		methods: {	
 			copy(){
+				this.$refs["output"].select();
 				document.execCommand("copy");
 			},
 		
