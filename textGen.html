@@ -32,10 +32,13 @@
 					<button class="uk-button uk-button-primary uk-button-small" @click="createOutput()">
 						Generate
 					</button>
+					<button class="uk-button uk-button-default uk-button-small" @click="copy()">
+						Copy
+					</button>
 				</div>
 				
 				<div class="uk-margin">
-					<textarea class="uk-textarea" v-model="output" rows="10" placeholder="output"></textarea>
+					<textarea id="output" class="uk-textarea" v-model="output" rows="10" placeholder="output"></textarea>
 				</div>
 				
 			</div>
@@ -49,6 +52,11 @@
 
 <script>
 
+	document.addEventListener('copy', function(e) {
+	  e.clipboardData.setData('text/plain', document.getElementById('output').value);
+	  e.preventDefault();
+	});
+
 	new Vue({
 		el: '#app',
 		data: {
@@ -59,7 +67,11 @@
 			randomLimit: 99999
 		},
 		
-		methods: {		
+		methods: {	
+			copy(){
+				document.execCommand("copy");
+			},
+		
 			createOutput(){
 				this.output = '';
 				var text = '';
