@@ -24,7 +24,7 @@
 				</div>
 				<div class="uk-margin">
 					<div v-for="(todo, index) in getUncheckedTodos()" :key="index">
-						<button class="uk-button uk-button-large uk-width-1-1 uk-text-left uk-button-default uk-text-large" @click="checkTodo(todo)">
+						<button class="uk-button uk-width-1-1 uk-text-left uk-button-default uk-text-large uk-padding-small" @click="checkTodo(todo)">
 							<span>{{ todo.name }}</span>
 						</button>
 					</div>
@@ -32,7 +32,7 @@
 				
 				<div class="uk-margin">
 					<div v-for="(todo, index) in getCheckedTodos()" :key="index">
-						<button class="uk-button uk-button-large uk-width-1-1 uk-text-left uk-button-primary uk-text-large" @click="checkTodo(todo)">
+						<button class="uk-button uk-width-1-1 uk-text-left uk-button-primary uk-text-large uk-padding-small" @click="checkTodo(todo)">
 							<span>{{ todo.name }}</span>
 						</button>
 					</div>
