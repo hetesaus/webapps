@@ -7,15 +7,15 @@
 			<div class="uk-padding-small">
 				<div class="uk-grid uk-grid-small" uk-grid>
 					<div>
-						<img src="images/tom.png" width="55" height="55"/>		
+						<img src="images/tom.png" width="80" height="80"/>		
 					</div>
 					<div>
 						<div class="uk-grid uk-grid-collapse uk-child-width-1-1" uk-grid>
 							<div>
-								<h3>Animal Crossing</h3>
+								<span class="uk-text-large uk-text-bold">Animal Crossing</span>
 							</div>
 							<div>
-								<span class="uk-text-meta">
+								<span class="uk-text-meta uk-text-large">
 									Daily todo list
 								</span>
 							</div>
@@ -24,16 +24,16 @@
 				</div>
 				<div class="uk-margin">
 					<div v-for="(todo, index) in getUncheckedTodos()" :key="index">
-						<button class="uk-button uk-button-small uk-width-1-1 uk-text-left uk-button-default" @click="checkTodo(todo)">
-							<span class="uk-text-large@s">{{ todo.name }}</span>
+						<button class="uk-button uk-button-large uk-width-1-1 uk-text-left uk-button-default uk-text-large" @click="checkTodo(todo)">
+							<span>{{ todo.name }}</span>
 						</button>
 					</div>
 				</div>
 				
 				<div class="uk-margin">
 					<div v-for="(todo, index) in getCheckedTodos()" :key="index">
-						<button class="uk-button uk-button-small uk-width-1-1 uk-text-left uk-button-primary" @click="checkTodo(todo)">
-							<span class="uk-text-large@s">{{ todo.name }}</span>
+						<button class="uk-button uk-button-large uk-width-1-1 uk-text-left uk-button-primary uk-text-large" @click="checkTodo(todo)">
+							<span>{{ todo.name }}</span>
 						</button>
 					</div>
 				</div>
