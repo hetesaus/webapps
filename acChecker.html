@@ -15,32 +15,28 @@
 								<h3>Animal Crossing</h3>
 							</div>
 							<div>
-								<span class="uk-text-meta">Daily todo list</span>
+								<span class="uk-text-meta">
+									Daily todo list
+								</span>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="uk-margin">
-					<div v-for="(todo, index) in getUncheckedTodos()">
-						 <label>
-							<input class="uk-checkbox" type="checkbox" v-model="todo.checked"> 
-							<span :style="todo.checked ? 'text-decoration: line-through;' : ''">
-								{{ todo.name }}
-							</span>
-						</label>
+					<div v-for="(todo, index) in getUncheckedTodos()" :key="index">
+						<button class="uk-button uk-button-small uk-width-1-1 uk-text-left uk-button-default" @click="checkTodo(todo)">
+							{{ todo.name }}
+						</button>
 					</div>
 				</div>
+				
 				<div class="uk-margin">
-					<div v-for="(todo, index) in getCheckedTodos()">
-						 <label>
-							<input class="uk-checkbox" type="checkbox" v-model="todo.checked"> 
-							<span :style="todo.checked ? 'text-decoration: line-through;' : ''">
-								{{ todo.name }}
-							</span>
-						</label>
+					<div v-for="(todo, index) in getCheckedTodos()" :key="index">
+						<button class="uk-button uk-button-small uk-width-1-1 uk-text-left uk-button-primary" @click="checkTodo(todo)">
+							{{ todo.name }}
+						</button>
 					</div>
 				</div>
-			
 			</div>
 		</div>
     </body>
@@ -73,13 +69,16 @@
 				{ checked: false, name: "Hit rocks" },
 			]
 		},
-				
+
 		methods: {
 			getUncheckedTodos(){
 				return this.todos.filter(function(todo) { return todo.checked == false });
 			},
 			getCheckedTodos(){
 				return this.todos.filter(function(todo) { return todo.checked == true });
+			},
+			checkTodo(todo){
+				todo.checked = !todo.checked;
 			}
 		}
 	})
