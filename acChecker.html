@@ -1,0 +1,92 @@
+<html>	
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    </head>
+	<body>
+		<div id="app">
+			<div class="uk-padding-small">
+			
+				<div class="uk-grid uk-grid-small" uk-grid>
+					<div>
+						<img src="images/tom.png" width="55" height="55"/>		
+					</div>
+					<div>
+						<div class="uk-grid uk-grid-collapse uk-child-width-1-1" uk-grid>
+							<div>
+								<h3>Animal Crossing</h3>
+							</div>
+							<div>
+								<span class="uk-text-meta">Daily todo list</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+				<div class="uk-margin">
+					<div v-for="(todo, index) in getUncheckedTodos()">
+						 <label>
+							<input class="uk-checkbox" type="checkbox" v-model="todo.checked"> 
+							<span :style="todo.checked ? 'text-decoration: line-through;' : ''">
+								{{ todo.name }}
+							</span>
+						</label>
+					</div>
+				</div>
+			
+				<div class="uk-margin">
+					<div v-for="(todo, index) in getCheckedTodos()">
+						 <label>
+							<input class="uk-checkbox" type="checkbox" v-model="todo.checked"> 
+							<span :style="todo.checked ? 'text-decoration: line-through;' : ''">
+								{{ todo.name }}
+							</span>
+						</label>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+    </body>
+</html>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+
+<script>
+
+	new Vue({
+		el: '#app',
+		data: {
+			todos: [
+				{ checked: false, name: "Check turnip prices before 12:00" },
+				{ checked: false, name: "Check turnip prices after 12:00" },
+				{ checked: false, name: "Get fossils" },
+				{ checked: false, name: "Turn in fossils" },
+				{ checked: false, name: "Shake trees for furniture" },
+				{ checked: false, name: "Search for message in a bottle" },
+				{ checked: false, name: "Talk to villagers" },
+				{ checked: false, name: "Check Nook's cranny" },
+				{ checked: false, name: "Check Able sisters" },
+				{ checked: false, name: "Check ABD miles redeem" },
+				{ checked: false, name: "Check ABD shopping" },
+				{ checked: false, name: "Check flowers" },
+				{ checked: false, name: "Water flowers" },
+				{ checked: false, name: "Collect money from money tree" },
+				{ checked: false, name: "Plant new money tree" },
+				{ checked: false, name: "Hit rocks" },
+			]
+		},
+				
+		methods: {
+			getUncheckedTodos(){
+				return this.todos.filter(function(todo) { return todo.checked == false });
+			},
+			
+			getCheckedTodos(){
+				return this.todos.filter(function(todo) { return todo.checked == true });
+			}
+		}
+	})
+
+</script>
