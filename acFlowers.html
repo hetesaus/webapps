@@ -1,0 +1,138 @@
+<html>	
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    </head>
+	<body>
+		<div id="app">
+			<div class="uk-padding-small">
+			
+				<div class="uk-grid uk-grid-small" uk-grid>
+					<div>
+						<img src="images/rose_gold.png" width="80" height="80"/>		
+					</div>
+					<div>
+						<div class="uk-grid uk-grid-collapse uk-child-width-1-1" uk-grid>
+							<div>
+								<span class="uk-text-large uk-text-bold">
+									Animal Crossing
+								</span>
+							</div>
+							<div>
+								<span class="uk-text-meta uk-text-large">
+									Flower hybrids
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="uk-grid uk-grid-small uk-child-width-auto" uk-grid>
+					<div 
+						v-for="(flower, index) in flowers" 
+						:key="index"
+						class="uk-padding">
+						<div class="uk-margin">
+							<span class="uk-text-lead uk-text-capitalize">
+								{{ flower.name }}
+							</span>
+						
+							<div v-for="(hybrid, index) in flower.hybrids" :key="index">
+								<div class="uk-grid uk-grid-small" uk-grid>
+									<div>
+										<img 
+											:src="getFlowerName(flower.name, hybrid.flower1)" 
+											:uk-tooltip="hybrid.flower1"
+											width="50" height="50" />
+									</div>
+									<div class="uk-text-large">+</div>
+									<div>
+										<img 
+											:src="getFlowerName(flower.name, hybrid.flower2)" 
+											:uk-tooltip="hybrid.flower2"
+											width="50" height="50" />
+									</div>
+									<div class="uk-text-large">=</div>
+									<div>
+										<img 
+											:src="getFlowerName(flower.name, hybrid.name)" 
+											:uk-tooltip="hybrid.name"
+											width="50" height="50" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </body>
+</html>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+
+<script>
+	new Vue({
+		el: '#app',
+		data: {
+			selectedFlower: null,
+			flowers: [
+				{ name: "rose", hybrids: [
+					{ name: "pink", flower1: "red", flower2: "white" },
+					{ name: "orange", flower1: "red", flower2: "yellow" },
+					{ name: "black", flower1: "white", flower2: "white" },
+					{ name: "black", flower1: "red", flower2: "red" },
+					{ name: "blue", flower1: "orange", flower2: "orange" },
+					{ name: "gold", flower1: "black", flower2: "black" },
+				]},
+				{ name: "windflower", hybrids: [
+					{ name: "pink", flower1: "red", flower2: "orange" },
+					{ name: "blue", flower1: "orange", flower2: "white" },
+					{ name: "blue", flower1: "white", flower2: "white" },
+					{ name: "purple", flower1: "blue", flower2: "pink" },
+					{ name: "purple", flower1: "blue", flower2: "blue" },
+				]},
+				{ name: "pansie", hybrids: [
+					{ name: "blue", flower1: "white", flower2: "white" },
+					{ name: "orange", flower1: "red", flower2: "yellow" },
+					{ name: "purple", flower1: "blue", flower2: "blue" },
+					{ name: "purple", flower1: "red", flower2: "red" },
+				]},
+				{ name: "tulip", hybrids: [
+					{ name: "orange", flower1: "red", flower2: "yellow" },
+					{ name: "black", flower1: "red", flower2: "red" },
+					{ name: "pink", flower1: "red", flower2: "white" },
+					{ name: "purple", flower1: "orange", flower2: "orange" },
+				]},
+				{ name: "lily", hybrids: [ 
+					{ name: "black", flower1: "red", flower2: "red" },
+					{ name: "orange", flower1: "red", flower2: "yellow" },
+					{ name: "pink", flower1: "red", flower2: "white" },
+				]},
+				{ name: "mum", hybrids: [
+					{ name: "pink", flower1: "red", flower2: "white" },
+					{ name: "purple", flower1: "white", flower2: "white" },
+					{ name: "green", flower1: "purple", flower2: "purple" },
+				]},
+				{ name: "cosmos", hybrids: [
+					{ name: "orange", flower1: "red", flower2: "yellow" },
+					{ name: "pink", flower1: "red", flower2: "white" },
+					{ name: "black", flower1: "red", flower2: "red" },
+				]},
+				{ name: "hyacinth", hybrids: [
+					{ name: "orange", flower1: "red", flower2: "yellow" },
+					{ name: "pink", flower1: "red", flower2: "white" },
+					{ name: "blue", flower1: "white", flower2: "white" },
+					{ name: "purple", flower1: "blue", flower2: "blue" },
+				]},
+			]
+		},
+
+		methods: {
+			getFlowerName(breed, color){
+				return "images/" + breed + "_" + color + ".png";
+			}
+		}
+	})
+</script>
