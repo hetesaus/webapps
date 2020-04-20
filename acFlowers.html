@@ -38,17 +38,10 @@
 						
 							<div v-for="(hybrid, index) in flower.hybrids" :key="index">
 								<div class="uk-grid uk-grid-small" uk-grid>
-									<div>
+									<div v-for="(requiredFlower, index) in hybrid.required" :key="index">
 										<img 
-											:src="getFlowerName(flower.name, hybrid.flower1)" 
-											:uk-tooltip="hybrid.flower1"
-											width="50" height="50" />
-									</div>
-									<div class="uk-text-large">+</div>
-									<div>
-										<img 
-											:src="getFlowerName(flower.name, hybrid.flower2)" 
-											:uk-tooltip="hybrid.flower2"
+											:src="getFlowerName(flower.name, requiredFlower)" 
+											:uk-tooltip="requiredFlower"
 											width="50" height="50" />
 									</div>
 									<div class="uk-text-large">=</div>
@@ -79,52 +72,52 @@
 			selectedFlower: null,
 			flowers: [
 				{ name: "rose", hybrids: [
-					{ name: "pink", flower1: "red", flower2: "white" },
-					{ name: "orange", flower1: "red", flower2: "yellow" },
-					{ name: "black", flower1: "white", flower2: "white" },
-					{ name: "black", flower1: "red", flower2: "red" },
-					{ name: "blue", flower1: "orange", flower2: "orange" },
-					{ name: "gold", flower1: "black", flower2: "black" },
+					{ name: "pink", required: [ "red", "white" ]},
+					{ name: "orange", required: [ "red", "yellow" ]},
+					{ name: "black", required: [ "white", "white" ]},
+					{ name: "black", required: [ "red", "red" ]},
+					{ name: "blue", required: [ "orange", "orange" ]},
+					{ name: "gold", required: [ "black", "black" ]},
 				]},
 				{ name: "windflower", hybrids: [
-					{ name: "pink", flower1: "red", flower2: "orange" },
-					{ name: "blue", flower1: "orange", flower2: "white" },
-					{ name: "blue", flower1: "white", flower2: "white" },
-					{ name: "purple", flower1: "blue", flower2: "pink" },
-					{ name: "purple", flower1: "blue", flower2: "blue" },
+					{ name: "pink", required: [ "red", "orange" ]},
+					{ name: "blue", required: [ "orange", "white" ]},
+					{ name: "blue", required: [ "white", "white" ]},
+					{ name: "purple", required: [ "blue", "pink" ]},
+					{ name: "purple", required: [ "blue", "blue" ]},
 				]},
 				{ name: "pansie", hybrids: [
-					{ name: "blue", flower1: "white", flower2: "white" },
-					{ name: "orange", flower1: "red", flower2: "yellow" },
-					{ name: "purple", flower1: "blue", flower2: "blue" },
-					{ name: "purple", flower1: "red", flower2: "red" },
+					{ name: "blue", required: [ "white", "white" ]},
+					{ name: "orange", required: [ "red", "yellow" ]},
+					{ name: "purple", required: [ "blue", "blue" ]},
+					{ name: "purple", required: [ "red", "red" ]},
 				]},
 				{ name: "tulip", hybrids: [
-					{ name: "orange", flower1: "red", flower2: "yellow" },
-					{ name: "black", flower1: "red", flower2: "red" },
-					{ name: "pink", flower1: "red", flower2: "white" },
-					{ name: "purple", flower1: "orange", flower2: "orange" },
+					{ name: "orange", required: [ "red", "yellow" ]},
+					{ name: "black", required: [ "red", "red" ]},
+					{ name: "pink", required: [ "red", "white" ]},
+					{ name: "purple", required: [ "orange", "orange" ]},
 				]},
 				{ name: "lily", hybrids: [ 
-					{ name: "black", flower1: "red", flower2: "red" },
-					{ name: "orange", flower1: "red", flower2: "yellow" },
-					{ name: "pink", flower1: "red", flower2: "white" },
+					{ name: "black", required: [ "red", "red" ]},
+					{ name: "orange", required: [ "red", "yellow" ]},
+					{ name: "pink", required: [ "red", "white" ]},
 				]},
 				{ name: "mum", hybrids: [
-					{ name: "pink", flower1: "red", flower2: "white" },
-					{ name: "purple", flower1: "white", flower2: "white" },
-					{ name: "green", flower1: "purple", flower2: "purple" },
+					{ name: "pink", required: [ "red", "white" ]},
+					{ name: "purple", required: [ "white", "white" ]},
+					{ name: "green", required: [ "purple", "purple" ]},
 				]},
 				{ name: "cosmos", hybrids: [
-					{ name: "orange", flower1: "red", flower2: "yellow" },
-					{ name: "pink", flower1: "red", flower2: "white" },
-					{ name: "black", flower1: "red", flower2: "red" },
+					{ name: "orange", required: [ "red", "yellow" ]},
+					{ name: "pink", required: [ "red", "white" ]},
+					{ name: "black", required: [ "red", "red" ]},
 				]},
 				{ name: "hyacinth", hybrids: [
-					{ name: "orange", flower1: "red", flower2: "yellow" },
-					{ name: "pink", flower1: "red", flower2: "white" },
-					{ name: "blue", flower1: "white", flower2: "white" },
-					{ name: "purple", flower1: "blue", flower2: "blue" },
+					{ name: "orange", required: [ "red", "yellow" ]},
+					{ name: "pink", required: [ "red", "white" ]},
+					{ name: "blue", required: [ "white", "white" ]},
+					{ name: "purple", required: [ "blue", "blue" ]},
 				]},
 			]
 		},
