@@ -1,0 +1,138 @@
+<html>	
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    </head>
+	<body>
+		<div id="app">
+			<div class="uk-padding-small">
+				<div class="uk-position-center uk-overlay uk-overlay-default uk-text-center">			
+					<div class="uk-text-lead" style="font-size: 120">
+						{{ currentHirgana.symbol }}
+					</div>
+					<div id="explanation" class="uk-invisible">
+						<div class="uk-text-large"> 
+							{{ currentHirgana.text }}
+						</div>
+						<div class="uk-text-meta"> 
+							"{{ currentHirgana.description }}"
+						</div>
+					</div>
+					</br>
+					<div>
+						<button type="button" @click="getRandomHiragana()">next</button>
+						<button type="button" uk-toggle="target: #explanation; mode: hover; cls: uk-invisible">answer</button>
+					</div>
+				</div>				
+			</div>
+		</div>
+    </body>
+</html>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+
+<script>
+
+	// https://www.youtube.com/watch?v=6p9Il_j0zjc&t=373s&ab_channel=LearnJapanesewithJapanesePod101.com
+
+	// hiragana
+  // あ a		か ka	  さ sa	  た ta	  な na	  は ha	  ま ma	  や ya	  ら ra	  わ wa	  ん n	
+	// い i		き ki	  し shi	  ち chi	  に ni	  ひ hi	  み mi	           り ri	   ゐ wi				
+	// う u		く ku	  す su	  つ tsu	  ぬ nu	  ふ fu	  む mu	  ゆ yu	  る ru		
+	// え e		け ke	  せ se	  て te	  ね ne	  へ he	  め me	           れ re	   ゑ we	
+	// お o		こ ko	  そ so	  と to	  の no	  ほ ho	  も mo	  よ yo	  ろ ro 	  を wo
+
+	// katakana
+	// ア a		カ ka	  サ sa	  タ ta	  ナ na	  ナ na	  ハ ha	  マ ma	  ヤ ya	  ラ ra	  ワ wa	  ン n	
+	// イ i		キ ki	  シ shi	  チ chi	  ニ ni	  ニ ni	  ヒ hi	  ミ mi		  	     リ ri	   ヰ wi				
+	// ウ u		ク ku	  ス su	  ツ tsu	  ヌ nu	  ヌ nu	  フ fu	  ム mu	  ユ yu	  ル ru			
+	// エ e		ケ ke	  セ se	  テ te	  ネ ne	  ネ ne	  ヘ he	  メ me	  	       レ re	   ヱ we
+	// オ o		コ ko	  ソ so	  ト to	  ノ no	  ノ no  	ホ ho	  モ mo	  ヨ yo	  ロ ro	  ヲ wo	
+  
+	new Vue({
+		el: '#app',
+		data: {
+			currentIndex: 0,
+			currentHirgana: {},
+			hiragana: [			
+				{ 'symbol': 'あ', 'text': 'a', 'description': 'looks like an apple' },				
+				{ 'symbol': 'い', 'text': 'i', 'description': 'looks like 2 i\'s, side by side' },
+				{ 'symbol': 'う', 'text': 'u', 'description': 'looks like a boxer getting punched, UGH!' },
+				{ 'symbol': 'え', 'text': 'e', 'description': 'looks like an energetic ninja' },	
+				{ 'symbol': 'お', 'text': 'o', 'description': 'think of a ufo' },	
+				
+				{ 'symbol': 'か', 'text': 'ka', 'description': '-' },
+				{ 'symbol': 'き', 'text': 'ki', 'description': '-' },
+				{ 'symbol': 'く', 'text': 'ku', 'description': '-' },
+				{ 'symbol': 'け', 'text': 'ke', 'description': '-' },
+				{ 'symbol': 'こ', 'text': 'ko', 'description': '-' },
+				
+				{ 'symbol': 'さ', 'text': 'sa', 'description': '-' },
+				{ 'symbol': 'し', 'text': 'shi', 'description': '-' },
+				{ 'symbol': 'す', 'text': 'su', 'description': '-' },
+				{ 'symbol': 'せ', 'text': 'se', 'description': '-' },
+				{ 'symbol': 'そ', 'text': 'so', 'description': '-' },
+				
+				{ 'symbol': 'た', 'text': 'ta', 'description': '-' },
+				{ 'symbol': 'ち', 'text': 'chi', 'description': '-' },
+				{ 'symbol': 'つ', 'text': 'tsu', 'description': '-' },
+				{ 'symbol': 'て', 'text': 'te', 'description': '-' },
+				{ 'symbol': 'と', 'text': 'to', 'description': '-' },
+				
+				{ 'symbol': 'な', 'text': 'na', 'description': '-' },
+				{ 'symbol': 'に', 'text': 'ni', 'description': '-' },
+				{ 'symbol': 'ぬ', 'text': 'nu', 'description': '-' },
+				{ 'symbol': 'ね', 'text': 'ne', 'description': '-' },
+				{ 'symbol': 'の', 'text': 'no', 'description': '-' },
+				
+				{ 'symbol': 'ハ', 'text': 'ha', 'description': '-' },
+				{ 'symbol': 'ヒ', 'text': 'hi', 'description': '-' },
+				{ 'symbol': 'フ', 'text': 'fu', 'description': '-' },
+				{ 'symbol': 'ヘ', 'text': 'he', 'description': '-' },
+				{ 'symbol': 'ホ', 'text': 'ho', 'description': '-' },
+				
+				{ 'symbol': 'ま', 'text': 'ma', 'description': '-' },
+				{ 'symbol': 'み', 'text': 'mi', 'description': '-' },
+				{ 'symbol': 'む', 'text': 'mu', 'description': '-' },
+				{ 'symbol': 'め', 'text': 'me', 'description': '-' },
+				{ 'symbol': 'も', 'text': 'mo', 'description': '-' },
+				
+				{ 'symbol': 'や', 'text': 'ya', 'description': '-' },
+				{ 'symbol': 'ゆ', 'text': 'yu', 'description': '-' },
+				{ 'symbol': 'よ', 'text': 'yo', 'description': '-' },
+				
+				{ 'symbol': 'ら', 'text': 'ra', 'description': '-' },
+				{ 'symbol': 'り', 'text': 'ri', 'description': '-' },
+				{ 'symbol': 'る', 'text': 'ru', 'description': '-' },
+				{ 'symbol': 'れ', 'text': 're', 'description': '-' },
+				{ 'symbol': 'ろ', 'text': 'ro', 'description': '-' },
+				
+				{ 'symbol': 'わ', 'text': 'wa', 'description': '-' },
+				{ 'symbol': 'ゐ', 'text': 'wi', 'description': '-' },
+				{ 'symbol': 'ゑ', 'text': 'we', 'description': '-' },
+				{ 'symbol': 'を', 'text': 'wo', 'description': '-' },
+			
+				{ 'symbol': 'ん', 'text': 'n', 'description': '-' },
+			]
+		},
+			
+		created() {
+			this.getRandomHiragana();
+		}, 
+			
+		methods: {
+			getRandomHiragana(){	
+				let random = Math.floor(Math.random() * this.hiragana.length);
+				
+				while (this.currentIndex == random) {
+					random = Math.floor(Math.random() * this.hiragana.length);
+				}
+				
+				this.currentIndex = random;	
+				this.currentHirgana = this.hiragana[this.currentIndex];
+			},
+		}
+	})
+
+</script>
