@@ -1,0 +1,63 @@
+<html>	
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    </head>
+	<body>
+		<div id="app">
+			<progress class="uk-progress" :value="seconds" :max="max"></progress>
+			<div class="uk-padding-small">
+				<h1 v-if="sitting">Sitting</h1>
+				<h1 v-else>Standing</h1>
+				{{ seconds }} - {{ remaining }}
+			</div>
+		</div>
+    </body>
+</html>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+
+<script>
+
+	new Vue({
+		el: '#app',
+		data: {
+			sittingDuration: 40,
+			standingDuration: 20,
+			seconds: 0,
+			remaining: 0,
+			max: 0,
+			sitting: true,
+		},
+			
+		created() {
+			setInterval(this.getNow, 1000);
+		},
+			
+		methods: {
+			getNow () {
+				this.seconds = this.seconds + 1;
+				this.max = (this.sitting ? this.sittingDuration : this.standingDuration) * 60;
+				
+				if (this.sitting) {
+					this.remaining = this.max - this.seconds;
+					if (this.seconds > this.sittingDuration * 60) {
+						alert('Stand up');
+						this.sitting = false;
+						this.seconds = 0;
+					}
+				} else { 
+					this.remaining = this.max - this.seconds;
+					if (this.seconds > this.standingDuration * 60) {
+						alert('Sit down');
+						this.sitting = true;
+						this.seconds = 0;
+					}
+				}
+			}
+		}
+			
+	})
+
+</script>
