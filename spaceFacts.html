@@ -5,7 +5,7 @@
 	<body>
 		<div id="app">
 			<div class="uk-position-center uk-overlay uk-overlay-default uk-text-center">  
-				<span>{{ currentFact }}</span>
+				<h3>{{ fact }}</h3>
 			</div>
 		</div>
 	</body>
@@ -25,7 +25,7 @@
 	new Vue({
 		el: '#app',
 		data: {
-			currentFact: '',
+			fact: '',
 			facts: [
 				"Mercury and Venus are the only two planets in our solar system that do not have any moons.",
 				"If a star passes too close to a black hole, it can be torn apart.",
@@ -332,7 +332,7 @@
 
 		methods: {
 			getFact () {
-				this.currentFact = this.facts[Math.floor(Math.random() * this.facts.length)];
+				this.fact = this.facts[Math.floor(Math.random() * this.facts.length)];
 			}
 		}
 	});
