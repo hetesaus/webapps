@@ -1,216 +1,150 @@
-<html>
-	<head>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
-	</head>
-	<body onload="Init()">
-		<div class="uk-width-4-5 uk-align-center">
+<html>	
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    </head>
+	<body>
+		<div id="app">
+			<div class="uk-padding-small">
+				<div class="uk-position-center uk-overlay uk-overlay-default uk-text-center">			
 
-			<div class="uk-margin">
-				<div uk-grid class="uk-grid uk-grid-collapse uk-width-1-1 uk-child-width-1-3">
-					<div class="uk-card uk-card-default uk-card-body">
-						<span uk-icon="icon: desktop">
-							<span id="dealerCardLabel"></span>
-						</span><br/>
-						<span id="dealerCardsLabel" class="uk-text-meta uk-text-small"></span>
+					<div class="uk-margin">
+						{{ dealer.join(', ') }} ({{ countCards(dealer) }})
 					</div>
-					<div class="uk-card uk-card-default uk-card-body">
-						<span uk-icon="icon: credit-card">
-							<span id="moneyLabel"></span>
-						</span><br/>
-						<span id="statusLabel" class="uk-text-meta uk-text-small"></span>
+				
+					<div class="uk-margin">
+						{{ money }}
 					</div>
-					<div class="uk-card uk-card-default uk-card-body">
-						<span uk-icon="icon: user">
-							<span id="playerCardLabel"></span>
-						</span><br/>
-						<span id="playerCardsLabel" class="uk-text-meta uk-text-small"></span>
+					
+					<div class="uk-margin">
+						{{ player.join(', ') }} ({{ countCards(player) }})
 					</div>
-				</div>
+					
+					<div v-if="canControl" class="uk-margin">
+						<button @click="hit()">hit</button>
+						<button @click="check()">check</button>
+					</div>
+					
+					<div class="uk-margin">
+						<button @click="reset()">reset</button>
+					</div>
+				
+				</div>				
 			</div>
-			
-			<div id="reset" class="uk-margin">
-				<div id="reset" class="uk-width-1-1">		
-					<button onclick="Reset()" class="uk-button uk-button-large uk-button-default uk-width-1-1">
-						<span uk-icon="icon: refresh"></span>
-						<span>Reset</span>
-					</button>
-				</div>
-			</div>
-
-			<div id="actions" class="uk-margin">
-				<div uk-grid class="uk-grid uk-grid-collapse uk-width-1-1 uk-child-width-1-3">			
-					<div>
-						<button onclick="Hit(player)" class="uk-button uk-button-large uk-button-default uk-width-1-1">
-							<span uk-icon="icon: plus"></span>
-							<span>Hit</span>
-						</button>
-					</div>
-					<div>
-						<button onclick="Check()" class="uk-button uk-button-large uk-button-default uk-width-1-1">
-							<span uk-icon="icon: check"></span>
-							<span>Check</span>
-						</button>
-					</div>
-					<div>
-						<button onclick="Fold()" class="uk-button uk-button-large uk-button-default uk-width-1-1">
-							<span uk-icon="icon: close"></span>
-							<span>Fold</span>
-						</button>
-					</div>
-				</div>
-			</div>
-			
 		</div>
-	</body>
+    </body>
 </html>
 
+<script src="https://unpkg.com/vue"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+
 <script>
 
-	var money = 1000;
-	var winnings = 10;
-	var player = [];
-	var dealer = [];
-
-	function Init(){
-		UpdateMoney(0);
-		Reset();
-	}
-	
-	function UpdateMoney(value){
-		money += value;
-		document.getElementById("moneyLabel").innerHTML = money;
-	}
-	
-	function UpdateCards(){
-		document.getElementById("playerCardLabel").innerHTML = CalculateTotalString(player);
-		document.getElementById("playerCardsLabel").innerHTML = player.join();
-		
-		document.getElementById("dealerCardLabel").innerHTML = CalculateTotalString(dealer);
-		document.getElementById("dealerCardsLabel").innerHTML = dealer.join();
-	}
-	
-	function CalculateTotalNumber(list){
-		var total = 0;
-		
-		for(i = 0; i < list.length; i++){
-			total += list[i];
-		}
-		if(list.includes(1) && total <= 11){
-			return total + 10;
-		}
-		return total;
-	}
-	
-	function CalculateTotalString(list){
-		var total = 0;
-		
-		for(i = 0; i < list.length; i++){
-			total += list[i];
-		}
-		if(list.includes(1) && total <= 11){
-			return total + "(" + (total + 10) + ")";
-		}	
-		return total;
-	}
-	
-	function SetStartingCards(){
-		GetCards(player, 2);
-		GetCards(dealer, 2);	
-	}
-	
-	function GetCards(entity, amount){
-		var number = 0;
-	
-		for(i = 0; i < amount; i++){
-			number = Math.floor(Math.random() * 14) + 1;
-			if(number > 10){
-				number = 10;
-			}
-			entity.push(number);
-		}
-		UpdateCards();
-	}
-	
-	function CheckDealerCards(){
-		while(CalculateTotalNumber(dealer) < 17){
-			GetCards(dealer, 1);
-		}
-		CheckWinCondition();
-	}
-	
-	function Hit(){
-		GetCards(player, 1);
-		
-		if(CalculateTotalNumber(player) == 21){
-			Win();
-		}
-		if(CalculateTotalNumber(player) > 21){
-			Lose();
-		}
-	}
-	
-	function Check(){
-		SwitchActions(false);
-		CheckDealerCards();
-	}
-	
-	function Fold(){
-		Lose();
-	}
-	
-	function SwitchActions(active){
-		var actions = document.getElementById("actions");
-		var reset = document.getElementById("reset");
-	
-		if(active){
-			actions.style.display = "flex";
-			reset.style.display = "none";
-		} else {
-			actions.style.display = "none";
-			reset.style.display = "flex";
-		}
-	}
-	
-	function CheckWinCondition(){
-		var dealerTotal = CalculateTotalNumber(dealer);
-		var playerTotal = CalculateTotalNumber(player);
+	new Vue({
+		el: '#app',
+		data: {
+			money: 1000,
+			bet: 10,
+			player: [],
+			dealer: [],
+			canControl: true,
+		},
 			
-		if(dealerTotal > 21 || 
-		   dealerTotal <= 21 && playerTotal <= 21 && playerTotal > dealerTotal){
-			Win();
-		} else if(dealerTotal == playerTotal){
-			Tie();
-		} else {
-			Lose();
+		created () {
+			this.init ();
+		}, 
+			
+		methods: {
+		
+			init () {
+				this.addCard(this.player, 2);
+				this.addCard(this.dealer, 1);
+			},
+		
+			addCard (entity, amount) {
+				let number = 0;
+				
+				for (i = 0; i < amount; i++) {
+					number = Math.floor(Math.random() * 14) + 1;
+					
+					if (number > 10) {
+						number = 10;
+					}
+					entity.push(number);
+				}
+			},
+			
+			countCards (entity){
+				let total = 0;
+		
+				for (i = 0; i < entity.length; i++){
+					total += entity[i];
+				}
+				if (entity.includes(1) && total <= 11) {
+					return total + 10;
+				}
+				
+				return total;
+			},		
+		
+			hit () {
+				this.addCard(this.player, 1);
+		
+				if (this.countCards(this.player) === 21) {
+					this.win();
+				}
+				if (this.countCards(this.player) > 21) {
+					this.lose();
+				}
+			},
+			
+			check () { 
+				canControl = false;
+				this.checkDealerCards(); 
+			},
+			
+			checkDealerCards () {
+				while(this.countCards(this.dealer) < 17) {
+					this.addCard(this.dealer, 1);
+				}
+				
+				this.checkWinCondition();
+			}, 
+			
+			checkWinCondition () {
+				let dealerTotal = this.countCards(this.dealer);
+				let playerTotal = this.countCards(this.player);
+			
+				if (dealerTotal > 21 || dealerTotal <= 21 && playerTotal <= 21 && playerTotal > dealerTotal) {
+					this.win();
+				} else if (dealerTotal == playerTotal) {
+					this.tie();
+				} else {
+					this.lose();
+				}
+			},
+		
+			win () {	
+				this.money += this.bet;
+			},
+			
+			tie () {
+
+			},
+			
+			lose () {
+				this.money -= this.bet;
+			},
+			
+			reset () {
+				this.player = [];
+				this.dealer = [];
+				
+				this.init();
+				
+				this.canControl = true;
+			}
 		}
-	}
-	
-	function Win(){
-		UpdateMoney(winnings);
-		document.getElementById("statusLabel").innerHTML = "WIN";
-		SwitchActions(false);
-	}
-	
-	function Tie(){
-		document.getElementById("statusLabel").innerHTML = "TIE";
-	}
-	
-	function Lose(){
-		UpdateMoney(-winnings);
-		document.getElementById("statusLabel").innerHTML = "LOSE";
-		SwitchActions(false);
-	}
-	
-	function Reset(){
-		player = [];
-		dealer = [];
-		
-		document.getElementById("statusLabel").innerHTML = "";
-		
-		SetStartingCards();
-		SwitchActions(true);
-	}
+	})
 
 </script>
