@@ -1,15 +1,35 @@
 <html>
-	<body onload="Init()">
-		<span id="fact"></span>
-  	</body>
+	<head>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+	</head>
+	<body>
+		<div id="app">
+			<span>{{ currentFact }}</span>
+		</div>
+	</body>
 </html>
 
-<script src="spaceFacts.js"></script>
-<script>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
 
-	function Init(){
-		var fact = facts[Math.floor(Math.random() * facts.length)];
-		document.getElementById('fact').innerHTML = fact;
-	}
+<script>
 	
+	new Vue({
+		el: '#app',
+		data: {
+			currentFact: '',
+		},
+
+		created () {
+			this.getFact();	
+		},
+
+		methods: {
+			getFact () {
+				
+			}
+		}
+	},
+
 </script>
