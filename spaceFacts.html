@@ -322,7 +322,7 @@
 				"You can see another galaxy with the naked eye: the Andromeda Galaxy, 2.2 million light years away.",
 				"Dried up riverbeds show that Mars probably once had water in its surface. There is sometimes ice at the poles and maybe water underground.",
 				"For a satellite to fly off into the space, its momentum should be greater than the pull of gravity of the earth.",
-				"The future of the Universe may depend on how much dark matter there is. If there is too much, its gravity will eventually stop the Universe’s expansion – and make it shrink again.",
+				"The future of the Universe may depend on how much dark matter there is. If there is too much, its gravity will eventually stop the Universe’s expansion – and make it shrink again."
 			]
 		},
 
@@ -332,9 +332,9 @@
 
 		methods: {
 			getFact () {
-				this.currentFact = facts[Math.floor(Math.random() * facts.length)];
+				this.currentFact = this.facts[Math.floor(Math.random() * this.facts.length)];
 			}
 		}
-	},
+	});
 
 </script>
