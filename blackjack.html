@@ -112,15 +112,16 @@
 			},
 			
 			giveMoney () {
-				let lastReceived = localStorage.getItem('blackjack_lastReceived');
-				let now = new Date();
+				let lastReceived = parseInt(localStorage.getItem('blackjack_lastReceived'));
+				let now = new Date().getTime();
 				
 				if (lastReceived === null) {
 					localStorage.setItem('blackjack_lastReceived', now);
 					return;
 				}
 				
-				if (lastReceived < now.setHours(now.getHours() - 1)) {
+				let nextReceive = lastReceived + 36000;
+				if (now > nextReceive) {
 					localStorage.setItem('blackjack_lastReceived', now);
 					this.money += 100;
 					this.saveSettings();
