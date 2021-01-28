@@ -120,7 +120,7 @@
 					return;
 				}
 				
-				let nextReceive = parseInt(lastReceived) + 36000;
+				let nextReceive = parseInt(lastReceived) + 60000;
 				if (now > nextReceive) {
 					localStorage.setItem('blackjack_lastReceived', now);
 					this.money += 100;
