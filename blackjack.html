@@ -112,7 +112,7 @@
 			},
 			
 			giveMoney () {
-				let lastReceived = parseInt(localStorage.getItem('blackjack_lastReceived'));
+				let lastReceived = localStorage.getItem('blackjack_lastReceived');
 				let now = new Date().getTime();
 				
 				if (lastReceived === null) {
@@ -120,7 +120,7 @@
 					return;
 				}
 				
-				let nextReceive = lastReceived + 36000;
+				let nextReceive = parseInt(lastReceived) + 36000;
 				if (now > nextReceive) {
 					localStorage.setItem('blackjack_lastReceived', now);
 					this.money += 100;
