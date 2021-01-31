@@ -1,0 +1,178 @@
+<html>    
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    </head>
+    <body>
+        <div id="app">
+            <div class="uk-padding-small">
+			
+				<div class="uk-margin">
+					<div class="uk-grid uk-grid-collapse" uk-grid>
+						<div class="uk-width-expand">
+							<select v-model="selectedList" class="uk-select" @change="getListItems()">
+								<option v-for="(list, index) in lists" :key="index">
+									{{ list }}
+								</option>
+							</select>
+						</div>
+						<div>
+							<button class="uk-button uk-button-default" href="#modal-lists" uk-toggle>
+								Add List
+							</button>
+							<div id="modal-lists" uk-modal>
+								<div class="uk-modal-dialog">
+									<div class="uk-modal-body">
+										<div class="uk-margin">
+											<input v-model="inputList" class="uk-input" type="text" placeholder="list name" autofocus></input>
+										</div>
+										<div class="uk-text-right">
+											<button class="uk-button uk-button-default uk-modal-close" type="button">
+												Cancel
+											</button>
+											<button class="uk-button uk-button-primary uk-modal-close" type="button" @click="addList()">
+												Add
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<button class="uk-button uk-button-default" @click="removeList()">Remove List</button>
+						</div>
+					</div>
+				</div>
+				
+				<div class="uk-margin">
+					<div v-for="(item, index) in listItems" :key="index">
+						<div class="uk-card uk-card-default uk-card-small uk-card-body uk-margin-small uk-padding-small">
+							<div class="uk-grid uk-grid-collapse" uk-grid>
+								<div class="uk-width-expand">
+									{{ item }}
+								</div>
+								<div>
+									<a :uk-icon="'trash'" @click="removeItem(index)"></a>
+								</div>
+							</div>
+					</div>
+                </div>
+				
+				<div class="uk-margin">
+					<a href="#modal-items" class="uk-icon-button" :uk-icon="'plus'" uk-toggle></a>
+					<div id="modal-items" uk-modal>
+						<div class="uk-modal-dialog">
+							<div class="uk-modal-body">
+								<div class="uk-margin">
+									<input v-model="inputItem" class="uk-input" type="text" placeholder="item name" autofocus></input>
+								</div>
+								<div class="uk-text-right">
+									<button class="uk-button uk-button-default uk-modal-close" type="button">
+										Cancel
+									</button>
+									<button class="uk-button uk-button-primary uk-modal-close" type="button" @click="addItem()">
+										Add
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+            </div>
+        </div>
+    </body>
+</html>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+
+<script>
+
+	// rename list
+	// cross off item from list
+
+    new Vue({
+        el: '#app',
+        data: {
+			inputList: '',
+			inputItem: '',
+            lists: [],
+			listItems: [],
+			selectedList: '',
+        },
+        
+        created() {
+			this.loadLists();
+        },
+		
+		methods: {
+			saveLists () {
+				localStorage.setItem('lists', this.lists.join(','));
+			},
+			
+			loadLists () {
+				var savedLists = localStorage.getItem('lists');
+				if (savedLists === null){
+					return;
+				}
+			
+				this.lists = savedLists.split(',');
+				this.selectedList = this.lists[0];
+				
+				this.getListItems();
+			},
+			
+			saveItems () {
+				localStorage.setItem(this.selectedList, this.listItems.join(','));
+			},
+		
+			getListItems () {
+				this.listItems = [];
+			
+				var listItems = localStorage.getItem(this.selectedList);
+				if (listItems === null){
+					return;
+				}
+				
+				this.listItems = listItems.split(',');
+			},
+			
+			addList () {
+				this.lists.push(this.inputList);
+				this.inputList = '';
+				this.saveLists();
+				this.selectedList = this.lists[this.lists.length-1];
+				this.getListItems();
+			},
+			
+			removeList () {
+				const index = this.lists.indexOf(this.selectedList);
+				if (index > -1) {
+					this.lists.splice(index, 1);
+				}
+				
+				localStorage.removeItem(this.selectedList);
+				
+				this.saveLists();
+				this.selectedList = this.lists[0];
+				this.getListItems();
+			},
+			
+			addItem () {
+				this.listItems.push(this.inputItem);
+				this.inputItem = '';
+				this.saveItems();
+			},
+						
+			removeItem (index) {
+				if (index > -1) {
+					this.listItems.splice(index, 1);
+				}
+				
+				this.saveItems();
+			},
+		}
+    })
+
+</script>
