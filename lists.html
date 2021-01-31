@@ -5,7 +5,6 @@
     <body>
         <div id="app">
             <div class="uk-padding-small">
-			
 				<div class="uk-margin">
 					<div class="uk-grid uk-grid-collapse" uk-grid>
 						<div class="uk-width-expand">
@@ -42,7 +41,6 @@
 						</div>
 					</div>
 				</div>
-				
 				<div class="uk-margin">
 					<div v-for="(item, index) in listItems" :key="index">
 						<div class="uk-card uk-card-default uk-card-small uk-card-body uk-margin-small uk-padding-small">
@@ -54,9 +52,9 @@
 									<a :uk-icon="'trash'" @click="removeItem(index)"></a>
 								</div>
 							</div>
+						</div>
 					</div>
                 </div>
-				
 				<div class="uk-margin">
 					<a href="#modal-items" class="uk-icon-button" :uk-icon="'plus'" uk-toggle></a>
 					<div id="modal-items" uk-modal>
@@ -77,7 +75,6 @@
 						</div>
 					</div>
 				</div>
-				
             </div>
         </div>
     </body>
