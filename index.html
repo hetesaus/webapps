@@ -172,7 +172,7 @@
 
         created() {
             this.items.sort(function(a, b){return new Date(b.updated) - new Date(a.updated)});
-
+		
             for (let i = 0; i < this.items.length; i++) {
                 for (let o = 0; o < this.items[i].tags.length; o++) {
                     if (this.tags.includes(this.items[i].tags[o]) == false) {
