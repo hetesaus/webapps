@@ -6,33 +6,51 @@
         <div id="app">
             <div class="uk-padding-small">
                 <div class="uk-margin">
-                    <h3>Web Apps</h3>
+                    <h3>Tools</h3>
                 </div>
+
                 <div class="uk-margin">
-                    <div class="uk-grid uk-grid-small uk-child-width-1-5@xl uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-2@s" uk-grid>
-                        <div v-for="(item, index) in items" :key="index">
-                            <a class="uk-link-reset" :href="item.url">
-                                <div class="uk-card uk-card-small uk-card-default">
-                                    <div class="uk-card-body uk-height-small">
-                                        <div class="uk-grid uk-grid-small" uk-grid>
-                                            <div class="uk-width-auto">
-                                                <img :src="item.img" :alt="defaultImg" width="50">
-                                            </div>
-                                            <div class="uk-width-expand">
-                                                <h3 class="uk-margin-remove">
-                                                    {{ item.name }}
-                                                </h3>
-                                                <span class="uk-text-meta">
-                                                    {{ item.description }}
-                                                </span>
+                    <div uk-filter="target: .tagFilter">
+                        <ul v-if="tags !== []" class="uk-subnav uk-subnav-pill">
+                            <li uk-filter-control class="uk-active"><a href="#">All</a></li>
+                            <li v-for="(tag, index) in tags" :key="index" :uk-filter-control="'.' + tag" class="uk-padding-remove">
+                                <a href="#">
+                                    {{ tag }}
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="tagFilter uk-grid uk-grid-small uk-child-width-1-5@xl uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-2@s" uk-grid>
+                            <li v-for="(item, index) in items" :key="index" :class="item.tags">
+                                <a class="uk-link-reset" :href="item.path" download>
+                                    <div class="uk-card uk-card-small uk-card-default">
+                                        <div class="uk-card-body uk-height-small">
+                                            <div class="uk-grid uk-grid-small" uk-grid>
+                                                <div class="uk-width-auto">
+                                                    <img v-if="item.img !== ''" :src="item.img" width="50">
+                                                    <img v-else src="images/default.png" width="50">
+                                                </div>
+                                                <div class="uk-width-expand">
+                                                    <h3 class="uk-margin-remove">
+                                                        {{ item.name }}
+                                                    </h3>
+                                                    <span class="uk-text-meta">
+                                                        {{ item.description }}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div v-if="item.updated !== undefined && item.updated !== ''" class="uk-card-footer uk-text-meta">
+                                            <span>
+                                                last updated: {{ item.updated }}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>                                
-                        </div>
-                    </div>            
-                </div>    
+                                </a>                                
+                            </li>
+                        </ul>
+                    </div>
+                </div>   
             </div>
         </div>
     </body>
@@ -41,98 +59,128 @@
 <script src="https://unpkg.com/vue"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+<script src="settings.js"></script>
 
 <script>
 
     new Vue({
         el: '#app',
         data: {
-	    defaultImg: '',
-            items: [
+            tags: [],
+	    items: [
                 { name: 'Twitch multiviewer V2', 
-                  url: 'twitchV2.html', 
+                  path: 'twitchV2.html', 
                   description: 'View multiple Twitch streams at the same time', 
+		  tags: [],
                   img: ''
                 },
                 { name: 'Twitch multiviewer', 
-                  url: 'twitch.html', 
+                  path: 'twitch.html', 
                   description: 'View multiple Twitch streams at the same time', 
+		  tags: [],
                   img: ''
                 },
 		{ name: 'Twitch multiviewer selection', 
-                  url: 'twitchSelection.html',
+                  path: 'twitchSelection.html',
                   description: 'Select following twitch streams to add to multiviewer', 
+		  tags: [],
                   img: ''
                 },
 		{ name: 'Twitch TV', 
-                  url: 'twitchTV.html',
+                  path: 'twitchTV.html',
                   description: 'Randomly switch between streams', 
+		  tags: [],
                   img: ''
                 },
                 { name: 'Blackjack', 
-                  url: 'blackjack.html',
+                  path: 'blackjack.html',
                   description: 'Play blackjack', 
+		  tags: [],
                   img: ''
                 },
 		{ name: 'Space Facts', 
-                  url: 'spaceFacts.html',
+                  path: 'spaceFacts.html',
                   description: 'Random space facts', 
+		  tags: [],
                   img: ''
                 },
 		{ name: 'Magic Eight', 
-                  url: 'magicEight.html',
+                  path: 'magicEight.html',
                   description: 'A magic 8 ball', 
+		  tags: [],
                   img: ''
                 },
 		{ name: 'Hiragana Tester', 
-                  url: 'hiraganaTester.html',
+                  path: 'hiraganaTester.html',
                   description: 'Test your hiragana skills', 
+		  tags: [],
                   img: ''
                 },
 		{ name: 'Standing Notifier', 
-                  url: 'standingNotifier.html',
+                  path: 'standingNotifier.html',
                   description: 'Notifies you when you should be standing and when you should be sitting', 
+		  tags: [],
                   img: ''
                 },
 		{ name: 'Philips Hue', 
-                  url: 'philipsHue.html',
+                  path: 'philipsHue.html',
                   description: 'Control local Philips Hue enabled lightbulbs', 
+		  tags: [],
                   img: ''
                 },
 		{ name: 'Countdown', 
-                  url: 'countdown.html',
+                  path: 'countdown.html',
                   description: 'A list of countdowns towards a specific date and time', 
+		  tags: [],
                   img: ''
                 },
 		{ name: 'Tournament', 
-                  url: 'tournament.html',
+                  path: 'tournament.html',
                   description: 'Tournament bracket app', 
+		  tags: [],
                   img: ''
                 },
 		{ name: 'Tournament Overlay', 
-                  url: 'tournamentOverlay.html',
-                  description: 'Tournament streaming overlay', 
+                  path: 'tournamentOverlay.html',
+                  description: 'Tournament streaming overlay',
+		  tags: [],				  
                   img: ''
                 },
 		{ name: 'Text Generator', 
-                  url: 'textGen.html',
+                  path: 'textGen.html',
                   description: 'Generate texts for CSVs', 
+		  tags: [],
                   img: ''
                 },{ name: 'Animal Crossing Todo', 
-                  url: 'acTodo.html',
+                  path: 'acTodo.html',
                   description: 'Daily activities to do', 
+		  tags: [],
                   img: ''
                 },{ name: 'Animal Crossing Flowers', 
-                  url: 'acFlowers.html',
+                  path: 'acFlowers.html',
                   description: 'Flower cross breeding guide', 
+		  tags: [],
                   img: ''
                 },{ name: 'Lists', 
-                  url: 'lists.html',
+                  path: 'lists.html',
                   description: 'Manage lists and items and have them saved in the browser', 
+		  tags: [],
                   img: ''
                 },
             ],
         },
+
+        created() {
+            this.items.sort(function(a, b){return new Date(b.updated) - new Date(a.updated)});
+
+            for (let i = 0; i < this.items.length; i++) {
+                for (let o = 0; o < this.items[i].tags.length; o++) {
+                    if (this.tags.includes(this.items[i].tags[o]) == false) {
+                        this.tags.push(this.items[i].tags[o]);
+                    }
+                }
+            }
+        }
     })
 
 </script>
