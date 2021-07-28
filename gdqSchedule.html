@@ -1,0 +1,146 @@
+<html>	
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    </head>
+	<body>
+		<div id="app">
+			<div class="uk-padding-small">
+				<div class="uk-margin">
+					<div v-for="(entry, index) in filteredSchedule" :key="index">
+						<div class="uk-card uk-card-default uk-card-body uk-margin">
+							<div class="uk-grid uk-child-width-1-4" uk-grid>
+								<div uk-tooltip="time">
+									{{ getTime(entry.time) }}
+								</div>
+								<div uk-tooltip="title">
+									{{ entry.title }}
+								</div>
+								<div uk-tooltip="runner">
+									{{ entry.runner }}
+								</div>
+								<div uk-tooltip="setup time">
+									<span class="uk-margin-small-right" :uk-icon="'clock'"></span>
+									{{ entry.setup }}
+								</div>
+								<div uk-tooltip="run length">
+									<span class="uk-margin-small-right" :uk-icon="'clock'"></span>
+									{{ entry.length }}
+								</div>
+								<div uk-tooltip="category">
+									{{ entry.category }}
+								</div>
+								<div uk-tooltip="commentator">
+									{{ entry.commentator }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="uk-margin">
+					<textarea v-model="input" class="uk-textarea" rows="5" placeholder=""></textarea>
+					<button @click="openSchedule()">schedule</button>
+					<button @click="getSchedule()">import schedule</button>
+				</div>
+			</div>
+		</div>
+    </body>
+</html>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+<script>
+
+  // add end of schedule notification
+  // load schedule from json file instead of importing
+  
+	new Vue({
+		el: '#app',
+		data: {
+			url: 'https://gamesdonequick.com/schedule',
+			input: '',
+			maxItems: 10,
+			time: '',
+			schedule: [],
+			filteredSchedule: [],
+			nextUpdate: new Date(),
+		},
+			
+		created () {
+			setInterval(this.getNow , 1000);
+		},
+	
+		methods: {	
+			openSchedule(){
+				window.open(this.url);
+			},
+		
+			getNow () {
+				this.time = new Date();
+				
+				if (this.filteredSchedule.length > 0 && this.time > this.nextUpdate){
+					this.nextUpdate = this.addTime(this.filteredSchedule[0].time, this.filteredSchedule[0].length);
+					this.filterSchedule();
+					console.log('refreshes at ' + this.getTime(this.nextUpdate));
+				}
+			},
+			
+			getTime (input) {
+				let date = new Date(input); 
+				return this.padZero(date.getHours()) + ':' + this.padZero(date.getMinutes());
+			},
+			
+			addTime (time, duration) {
+				let addTime = duration.split(':');
+				let nextUpdate = new Date(time);
+				
+				nextUpdate.setHours(nextUpdate.getHours() + parseInt(addTime[0]));		
+				nextUpdate.setMinutes(nextUpdate.getMinutes() + parseInt(addTime[1]));
+				nextUpdate.setSeconds(nextUpdate.getSeconds() + parseInt(addTime[2]));
+				
+				return nextUpdate;
+			},
+		
+			padZero (input) {
+				return ('' + input).length == 1 ? '0' + input : input;
+			},
+		
+			getSchedule () {
+				let startPos = this.input.indexOf('<table id="runTable"');
+				let endPos = this.input.indexOf('</table>');
+				let table = this.input.slice(startPos, endPos);
+				let parser = new DOMParser();
+				let htmlDoc = parser.parseFromString(table, 'text/html');
+				htmlDoc.getElementById("runTable").deleteTHead();
+				
+				let elements = htmlDoc.getElementsByTagName('td');				
+				let games = [];
+				
+				for (let i = 0; i < elements.length; i+=7){
+					games.push(
+						{ 
+							time: new Date(elements[i].innerText), 
+							title: elements[i+1].innerText, 
+							runner: elements[i+2].innerText,
+							setup: elements[i+3].innerText,
+							length: elements[i+4].innerText,
+							category: elements[i+5].innerText,
+							commentator: elements[i+6].innerText 
+						});
+				}
+				
+				this.schedule = games;
+				this.filterSchedule();
+			},
+			
+			filterSchedule () {
+				this.filteredSchedule = 
+					this.schedule
+						.filter(o => this.addTime(o.time, o.length) > this.time)
+						.slice(0, this.maxItems);
+			}
+		}
+	})
+
+</script>
