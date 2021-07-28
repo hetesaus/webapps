@@ -1,0 +1,69 @@
+<html>	
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    </head>
+	<body>
+		<div id="app">
+			<div class="uk-padding-small">
+				<div class="uk-margin">
+					<span class="uk-text-meta">
+						Remove duplicate values from list seperated by newlines
+					</span>
+				</div>
+			
+				<div class="uk-margin">
+					<div class="uk-width-expand">
+						<textarea v-model="input" class="uk-textarea" rows="20"></textarea>
+					</div>
+				</div>
+
+				<div class="uk-margin">
+					<div class="uk-grid" uk-grid>
+						<div class="uk-width-expand">
+							<span v-if="removed > 0" class="uk-text-meta">
+								Removed {{ removed }} duplicate values
+							</span>
+						</div>
+
+						<div class="uk-width-auto">
+							<button class="uk-button uk-button-default" uk-height-match @click="removeDuplicates()">
+								Remove duplicates
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </body>
+</html>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+<script>
+
+  // add styling
+  
+	new Vue({
+		el: '#app',
+		data: {
+			input: '',
+			removed: 0,
+		},
+			
+		methods: {
+			removeDuplicates(){	
+				let list = this.input.split('\n');
+				let distinctList = list.filter(this.onlyUnique);
+			
+				this.input = distinctList.join("\n");
+				this.removed = list.length - distinctList.length;
+			},
+			
+			onlyUnique(value, index, self) {
+				return self.indexOf(value) === index;
+			}
+		}
+	})
+
+</script>
