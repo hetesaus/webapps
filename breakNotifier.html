@@ -1,0 +1,108 @@
+<html>	
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    </head>
+	<body>
+		<div id="app">
+			<progress class="progress" :value="seconds" :max="max"></progress>
+			<div class="uk-padding-small">
+				<div>
+					<h1 v-if="working">Work</h1>
+					<h1 v-else>Break time</h1>
+					
+				</div>
+				<div class="uk-margin">
+					<div class="uk-text-meta">
+						elapsed: {{ seconds }} seconds
+					</div>
+					<div class="uk-text-meta">
+						remaining: {{ remaining }} seconds
+					</div>
+				</div>
+				
+				<div class="uk-grid uk-grid-small">
+					<div>
+						<button @click="reset">reset</button>
+					</div>
+					<div>
+						<button @click="switchModes">switch</button>
+					</div>
+				</div>
+			</div>
+		</div>
+    </body>
+</html>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+
+<script>
+
+	new Vue({
+		el: '#app',
+		data: {
+			workDuration: 45,
+			breakDuration: 5,
+			seconds: 0,
+			remaining: 0,
+			max: 0,
+			working: true,
+		},
+			
+		created() {
+			setInterval(this.getNow, 1000);
+		},
+			
+		methods: {
+			getNow () {
+				this.seconds = this.seconds + 1;
+				this.max = (this.working ? this.workDuration : this.breakDuration) * 60;
+				
+				if (this.working) {
+					this.remaining = this.max - this.seconds;
+					if (this.seconds > this.workDuration * 60) {				
+						alert('time for a break');
+						this.working = false;
+						this.seconds = 0;
+					}
+				} else { 
+					this.remaining = this.max - this.seconds;
+					if (this.seconds > this.breakDuration * 60) {			
+						alert('back to work');
+						this.working = true;
+						this.seconds = 0;
+					}
+				}
+			},
+			
+			reset () {
+				this.seconds = 0;
+				this.max = (this.working ? this.workDuration : this.breakDuration) * 60;
+			},
+			
+			switchModes () {
+				this.working = this.working == false;
+				this.reset();
+			}
+		}
+			
+	})
+
+</script>
+
+<style>
+
+	progress[value] {
+		-webkit-appearance: none;
+		appearance: none;
+		width: 100%;
+		height: 10px;
+	}
+	
+	progress[value]::-webkit-progress-bar {
+		background-color: #eee;
+		border-radius: 2px;
+	}
+	
+</style>
