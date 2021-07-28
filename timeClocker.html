@@ -1,0 +1,125 @@
+<html>	
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/css/uikit.min.css" />
+    </head>
+	<body>
+		<div id="app">
+			<div class="uk-padding-small">
+			
+				<div class="uk-margin">
+					<div class="uk-grid uk-grid-small" uk-grid>
+						<div class="uk-width-expand">				
+							<input class="uk-input" type="text" v-model="input" placeholder="Timer name">
+						</div>
+						<div class="uk-width-auto">
+							<button class="uk-button uk-button-default" @click="addTimer">Add timer</button>
+						</div>
+					</div>
+				</div>
+			
+				<div v-if="timers.length === 0" class="uk-margin">
+					<h3>No timers</h3>
+				</div>
+			
+				<div v-else class="uk-margin">
+					<table class="uk-table uk-table-striped">
+						<tbody>
+							<tr v-for="(timer, index) in timers" :key="timer.name">
+								<td class="uk-table-expand">
+									<h3>{{ timer.name }}</h3>
+								</td>
+								<td >
+									{{ timer.startTime }}
+								</td>
+								<td >
+									{{ getTime(timer.seconds) }}
+								</td>
+								<td class="uk-table-shrink uk-text-nowrap">
+									<button class="uk-button uk-button-default uk-button-small uk-width-small" @click="index === currentTimerIndex ? stopTimer(index) : startTimer(index)">
+										<span v-if="index === currentTimerIndex">
+											Stop
+										</span>
+										<span v-else>
+											Start
+										</span>
+									</button>
+									<button class="uk-button uk-button-danger uk-button-small" @click="deleteTimer(index)">delete</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+    </body>
+</html>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.12/js/uikit-icons.min.js"></script>
+
+<script>
+
+	// checkmark lines
+	// add start time
+	// add quarters to hours
+
+	new Vue({
+		el: '#app',
+		data: {
+			input: '',
+			currentTimerIndex: -1,
+			timers: [],
+			timer: null,
+		},
+		
+		created() {
+			this.method();
+		}, 
+		
+		methods: {
+			addTimer(){	
+				this.timers.push({ startTime: '', checked: false, name: this.input, seconds: 0 });
+				this.input = '';
+			},
+			getCurrentTime(){
+				let date = new Date();
+				let time = date.getHours() + ':' + date.getMinutes();
+				
+				return time;
+			},
+			getTime(seconds){
+				if (seconds < 60){
+					return seconds + ' second' + (seconds === 1 ? '' : 's');
+				}
+				else if (seconds => 60 && seconds < 3600){
+					let minutes = Math.floor(seconds / 60);
+					return minutes + ' minute' + (minutes == 1 ? '' : 's');
+				}
+				else if (seconds => 3600){
+					let hours = Math.floor(seconds / 3600);
+					return + hours + ' hour' + (hours == 1 ? '' : 's');
+				}
+			},
+			startTimer(index){	
+				this.stopTimer(this.currentTimerIndex);
+				this.currentTimerIndex = index;
+				this.timers[this.currentTimerIndex].startTime = this.getCurrentTime();
+				this.timer = setInterval(this.addToTimer, 1000);
+			},
+			addToTimer(timer){
+				this.timers[this.currentTimerIndex].seconds += 1;
+			},	
+			stopTimer(index){	
+				clearInterval(this.timer);
+				this.currentTimerIndex = -1;
+			},	
+			deleteTimer(index){
+				if (window.confirm("Are you sure?")) {
+					this.timers.splice(index, 1);
+				}
+			}
+		}
+	})
+
+</script>
